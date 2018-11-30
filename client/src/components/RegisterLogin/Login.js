@@ -79,10 +79,8 @@ class Login extends Component {
 
     render() {
         let redirect = null;
-        if (this.props.userData) {
-            if (this.props.userData.isAuth)
-                redirect = <Redirect to={userDashboardRoute} />;
-        }
+        if (this.props.userData.isAuth)
+            redirect = <Redirect to={userDashboardRoute} />;
 
         return (
             <div className="signin_wrapper">

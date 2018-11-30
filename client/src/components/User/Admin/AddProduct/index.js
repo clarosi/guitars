@@ -2,13 +2,21 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 import { getProductBrands, getProductWoods } from '../../../../store/actions/';
-import { bindFormElementValue, generateDataToSubmit, verifyFormIsValid } from '../../../../shared/utils/helperFunctions';
+import { 
+    bindFormElementValue, 
+    generateDataToSubmit, 
+    verifyFormIsValid,
+    populateOptionFields 
+} from '../../../../shared/utils/helperFunctions';
 import { frets } from '../../../../shared/utils/numberConstants';
 import FormElement from '../../../UI/FormElement/FormElement';
 import UserLayout from '../../../../hoc/Layout/UserLayout';
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class AddProduct extends Component {
     state = {
+        isLoading: false,
         formHasError: false,
         formSuccessMsg: '',
         formData: {
@@ -179,20 +187,36 @@ class AddProduct extends Component {
         }
     };
 
+    componentDidMount() {
+        const formData = this.state.formData;
+
+        this.props.dispatch(getProductBrands())
+        .then(res => {
+            const newFormData = populateOptionFields(formData, this.props.productBrands, 'brand');
+            this.updateFieldsHandler(newFormData);
+        });
+
+        this.props.dispatch(getProductWoods())
+        .then(res => {
+            const newFormData = populateOptionFields(formData, this.props.productWoods, 'wood');
+            this.updateFieldsHandler(newFormData);
+        })
+    }
+
+    updateFieldsHandler = (newFormData) => {
+        this.setState({formData: newFormData});
+    }
+
     submitFormHandler = (event) => {
         const dataToSubmit = generateDataToSubmit(this.state.formData);
         const formIsValid = verifyFormIsValid(this.state.formData);
 
         if (formIsValid) {
-            // const credentials = {
-            //     email: dataToSubmit.txtEmail,
-            //     password: dataToSubmit.txtPassword
-            // };
-
-            // this.props.onLoginUser(credentials)       
+            console.log(dataToSubmit);   
+            //this.setState({isLoading: true});
         }
         else {
-            //this.setState({formHasError: true});
+            this.setState({formHasError: true});
         }
     }
 
@@ -216,8 +240,62 @@ class AddProduct extends Component {
                             id={this.state.formData.name.config.name}
                             formData={this.state.formData.name}
                             onChange={(element) => this.onChangeHandler(element)}
+                        />    
+                        <FormElement 
+                            id={this.state.formData.description.config.name}
+                            formData={this.state.formData.description}
+                            onChange={(element) => this.onChangeHandler(element)}
+                        />
+                        <FormElement 
+                            id={this.state.formData.price.config.name}
+                            formData={this.state.formData.price}
+                            onChange={(element) => this.onChangeHandler(element)}
+                        />
+                        <div className="form_devider"></div>
+                        <FormElement 
+                            id={this.state.formData.brand.config.name}
+                            formData={this.state.formData.brand}
+                            onChange={(element) => this.onChangeHandler(element)}
+                        />
+                        <FormElement 
+                            id={this.state.formData.shipping.config.name}
+                            formData={this.state.formData.shipping}
+                            onChange={(element) => this.onChangeHandler(element)}
+                        />
+                        <FormElement 
+                            id={this.state.formData.available.config.name}
+                            formData={this.state.formData.available}
+                            onChange={(element) => this.onChangeHandler(element)}
+                        />
+                        <div className="form_devider"></div>
+                        <FormElement 
+                            id={this.state.formData.wood.config.name}
+                            formData={this.state.formData.wood}
+                            onChange={(element) => this.onChangeHandler(element)}
+                        />
+                        <FormElement 
+                            id={this.state.formData.frets.config.name}
+                            formData={this.state.formData.frets}
+                            onChange={(element) => this.onChangeHandler(element)}
+                        />
+                        <FormElement 
+                            id={this.state.formData.publish.config.name}
+                            formData={this.state.formData.publish}
+                            onChange={(element) => this.onChangeHandler(element)}
                         />
                     </form>
+                    <Button 
+                        variant="outlined" 
+                        color="primary"
+                        onClick={(event) => this.submitFormHandler(event)}
+                    >
+                        {this.state.isLoading ? <CircularProgress size={30} /> : 'Submit'}
+                    </Button>
+                    {this.state.formHasError ?
+                        <div className="error_label">{this.state.formErrorMsg ? this.state.formErrorMsg : 'Please fill up all the required fields.'}</div>
+                        :
+                        null
+                    }
                 </div>
             </UserLayout>
         );

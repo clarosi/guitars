@@ -34,9 +34,29 @@ const FormElement = ({id, formData, onChange}) => {
                     </div>
                 );
                 break;  
+            case ('textarea'):
+                formTemplete = (
+                    <div className="formBlock">
+                        { formData.showLabel ?
+                            <div className="label_inputs">
+                                {formData.config.label}
+                            </div>
+                            :
+                            null
+                        }
+                        <textarea 
+                            {...formData.config}
+                            value={formData.value}
+                            onChange={(event) => onChange({event, id})}
+                            onBlur={(event) => onChange({event, id, blur: true})}
+                        />
+                        {showErrorHandler()}
+                    </div>
+                );
+                break;
             case ('select'):
                 formTemplete = (
-                    <div>
+                    <div className="formBlock">
                         { formData.showLabel ?
                             <div className="label_inputs">
                                 {formData.config.label}

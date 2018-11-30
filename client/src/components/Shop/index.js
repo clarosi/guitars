@@ -92,12 +92,19 @@ class Shop extends Component {
 
     renderFilteredResultsHandler = (filters) => {
         this.setState({isLoading: true});
+
+        let skip = this.state.skip;
+        for (const key in filters) {
+            if (filters[key].length > 0) skip = 0;    
+        }
+
         this.props.dispatch(getProductsToShop({
-            limit: 0,
-            skip: this.state.skip,
+            skip,
+            limit: this.state.limit,
             filters: filters
         }))
         .then(() => {
+ 
             this.setState({
                 isLoading: false,
                 skip: 0
@@ -109,7 +116,7 @@ class Shop extends Component {
     }
 
     loadMoreHandler = () => {
-        const skip = this.state.skip + this.state.limit;
+        let skip = this.state.skip + this.state.limit;
         const prevData = this.props.toShopArticles;
 
         this.props.dispatch(getProductsToShop(

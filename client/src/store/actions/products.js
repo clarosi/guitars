@@ -4,7 +4,8 @@ import {
     productEndPoint, 
     productBrandsEndPoint, 
     productWoodsEndPoint,
-    getProductsToShopEndPoint
+    getProductsToShopEndPoint,
+    productAddEndPoint
 } from '../../shared/utils/endPointContants';
 import { axiosGetRequest, axiosPostRequest } from '../../shared/utils/helperFunctions';
 
@@ -27,4 +28,8 @@ export const getProductWoods = () => {
 
 export const getProductsToShop = (payload, prevData = []) => {
     return axiosPostRequest(getProductsToShopEndPoint, actionTypes.GET_PRODUCTS_TO_SHOP, payload, prevData);
+};
+
+export const addProduct = (payload) => {
+    return axiosPostRequest(productAddEndPoint, actionTypes.ADD_PRODUCT, payload);
 };

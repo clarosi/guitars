@@ -41,7 +41,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 toShopArticles: newArticles,
                 toShopSize: action.payload.data.size,
-            };    
+            }; 
+        case actionTypes.ADD_PRODUCT:
+            return Object.assign({}, state, {
+                addProduct: action.payload.data
+            });   
         default:
             return state;
     }
