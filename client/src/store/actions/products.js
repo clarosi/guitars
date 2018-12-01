@@ -8,6 +8,7 @@ import {
     productAddEndPoint
 } from '../../shared/utils/endPointContants';
 import { axiosGetRequest, axiosPostRequest } from '../../shared/utils/helperFunctions';
+import { tokenName } from '../../shared/utils/stringConstants';
 
 // Promise base action creators 
 export const getProductBySell = () => {
@@ -30,6 +31,14 @@ export const getProductsToShop = (payload, prevData = []) => {
     return axiosPostRequest(getProductsToShopEndPoint, actionTypes.GET_PRODUCTS_TO_SHOP, payload, prevData);
 };
 
-export const addProduct = (payload) => {
-    return axiosPostRequest(productAddEndPoint, actionTypes.ADD_PRODUCT, payload);
+export const addProduct = (payload) => {       
+    const token = localStorage.getItem(tokenName);
+    return axiosPostRequest(`${productAddEndPoint}?token=${token}`, actionTypes.ADD_PRODUCT, payload);
+};
+
+export const clearProduct = () => {
+    return {
+        type: actionTypes.CLEAR_PRODUCT,
+        payload: null
+    };
 };

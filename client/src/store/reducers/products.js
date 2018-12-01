@@ -6,7 +6,8 @@ const initialState = {
     productBySell: [],
     productByArrival: [],
     productBrands: [],
-    productWoods: []
+    productWoods: [],
+    addedProduct: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -44,8 +45,12 @@ const reducer = (state = initialState, action) => {
             }; 
         case actionTypes.ADD_PRODUCT:
             return Object.assign({}, state, {
-                addProduct: action.payload.data
+                addedProduct: action.payload.data
             });   
+        case actionTypes.CLEAR_PRODUCT:
+            return Object.assign({}, state, {
+                addedProduct: action.payload
+            }); 
         default:
             return state;
     }

@@ -1,23 +1,30 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import { getProductBrands, getProductWoods } from '../../../../store/actions/';
+import { 
+    getProductBrands, 
+    getProductWoods,  
+    addProduct,
+    clearProduct
+} from '../../../../store/actions/';
 import { 
     bindFormElementValue, 
     generateDataToSubmit, 
     verifyFormIsValid,
-    populateOptionFields 
+    populateOptionFields,
+    resetFormField 
 } from '../../../../shared/utils/helperFunctions';
+import { delay3sec } from '../../../../shared/utils/numberConstants';
 import { frets } from '../../../../shared/utils/numberConstants';
 import FormElement from '../../../UI/FormElement/FormElement';
 import UserLayout from '../../../../hoc/Layout/UserLayout';
-import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import ErrorMsg from '../Misc/ErrorMsg';
 
 class AddProduct extends Component {
     state = {
         isLoading: false,
         formHasError: false,
+        formErrorMsg: '',
         formSuccessMsg: '',
         formData: {
             name: {
@@ -203,17 +210,59 @@ class AddProduct extends Component {
         })
     }
 
+    componentWillUnMount() {
+        this.props.dispatch(clearProduct());
+    }
+
     updateFieldsHandler = (newFormData) => {
         this.setState({formData: newFormData});
+    }
+
+    resetFormFieldHandler = () => {
+        const newFormData = resetFormField(this.state.formData);
+
+        this.setState({
+            formData: newFormData,
+            isLoading: false,
+            formErrorMsg: '',
+            formSuccessMsg: 'Product successfully added.'
+        });
+
+        setTimeout(() => {
+            this.setState({formSuccessMsg: ''});
+            this.props.dispatch(clearProduct());
+        }, delay3sec);
     }
 
     submitFormHandler = (event) => {
         const dataToSubmit = generateDataToSubmit(this.state.formData);
         const formIsValid = verifyFormIsValid(this.state.formData);
 
-        if (formIsValid) {
-            console.log(dataToSubmit);   
-            //this.setState({isLoading: true});
+        if (formIsValid) { 
+            this.setState({isLoading: true});
+
+            this.props.dispatch(addProduct(dataToSubmit))
+            .then((res) => {
+                if (res.payload.data) {
+                    this.resetFormFieldHandler();
+                }
+                else {
+                    this.setState({
+                        isLoading: false,
+                        formHasError: true,
+                        formErrorMsg: res.payload,
+                        formSuccessMsg: ''
+                    });  
+                }
+            })
+            .catch(() => {
+                this.setState({
+                    isLoading: false,
+                    formHasError: true,
+                    formErrorMsg: '',
+                    formSuccessMsg: ''
+                });
+            });
         }
         else {
             this.setState({formHasError: true});
@@ -226,11 +275,21 @@ class AddProduct extends Component {
         this.setState({
             formHasError: false,
             formSuccessMsg: '',
+            formErrorMsg: '',
             formData: newFormData
         });
     }
 
     render() {
+        const props = {
+            formSuccessMsg: this.state.formSuccessMsg,
+            formHasError: this.state.formHasError,
+            formErrorMsg: this.state.formErrorMsg,
+            submitFormHandler: this.submitFormHandler,
+            formSubmitting: this.isLoading,
+            formType: 'Add Product'
+        };
+
         return (
             <UserLayout>
                 <div>
@@ -284,18 +343,7 @@ class AddProduct extends Component {
                             onChange={(element) => this.onChangeHandler(element)}
                         />
                     </form>
-                    <Button 
-                        variant="outlined" 
-                        color="primary"
-                        onClick={(event) => this.submitFormHandler(event)}
-                    >
-                        {this.state.isLoading ? <CircularProgress size={30} /> : 'Submit'}
-                    </Button>
-                    {this.state.formHasError ?
-                        <div className="error_label">{this.state.formErrorMsg ? this.state.formErrorMsg : 'Please fill up all the required fields.'}</div>
-                        :
-                        null
-                    }
+                    <ErrorMsg {...props} />
                 </div>
             </UserLayout>
         );

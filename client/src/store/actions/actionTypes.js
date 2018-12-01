@@ -1,8 +1,9 @@
 export const AUTH_USER = 'AUTH_USER';
 
-export const ADD_PRODUCT = 'ADD_PRODUCT';
-
 export const GET_PRODUCTS_TO_SHOP = 'GET_PRODUCTS_TO_SHOP';
+
+export const ADD_PRODUCT = 'ADD_PRODUCT';
+export const CLEAR_PRODUCT = 'CLEAR_PRODUCT';
 
 export const GET_PRODUCT_BY_SELL = 'GET_PRODUCT_BY_SELL';
 export const GET_PRODUCT_BY_ARRIVAL = 'GET_PRODUCT_BY_ARRIVAL';

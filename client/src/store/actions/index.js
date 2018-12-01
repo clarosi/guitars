@@ -9,5 +9,6 @@ export {
     getProductBrands,
     getProductWoods,
     getProductsToShop,
-    addProduct 
+    addProduct,
+    clearProduct 
 } from './products';
