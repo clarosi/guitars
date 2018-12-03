@@ -13,7 +13,7 @@ const productController = require('../controllers/product');
 router.get('/articles', productController.productdFindArticlesGet);
 
 //articles_by_id?id=xxx,yyy,zzz&type=single
-router.get('/articles_by_id', auth, productController.productFindArticleByIdGet);
+router.get('/articles_by_id', productController.productFindArticleByIdGet);
 
 router.post('/shop', productController.productGetByFiltersPost);
 

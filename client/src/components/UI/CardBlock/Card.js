@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 import CustomButton from '../../UI/CustomButton/';
-import { productByIdEndPoint } from '../../../shared/utils/endPointContants';
+import { productDetailsRoute } from '../../../shared/utils/routeConstants';
 
 class Card extends Component {
     renderCardImageHandler = (images) => {
@@ -39,7 +39,7 @@ class Card extends Component {
                                 type="link"
                                 altClass="card_link"
                                 title="View Product"
-                                linkTo={`${productByIdEndPoint}/${this.props._id}`}
+                                linkTo={`${productDetailsRoute}/${this.props._id}`}
                                 addStyles={{margin: '10px 0 0 0'}}
                             />
                         </div>

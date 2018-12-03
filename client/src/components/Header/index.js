@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
+import { clearUserStore } from '../../store/actions';
 import { Link, withRouter } from 'react-router-dom';
 import { tokenName } from '../../shared/utils/stringConstants';
 import * as routes from '../../shared/utils/routeConstants';
@@ -75,6 +76,7 @@ class Header extends Component {
 
     logoutHandler = () => {
         localStorage.removeItem(tokenName);
+        this.props.dispatch(clearUserStore());
         this.props.history.push(routes.registerLoginRoute);
     }
 

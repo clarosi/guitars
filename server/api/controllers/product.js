@@ -39,7 +39,7 @@ module.exports.productGetByFiltersPost = (req, res, next) => {
         articles: doc
     }))
     .catch(err => res.status(numberConstants.internalServerNum).json({error: err.message}));
-}
+};
 
 module.exports.productdAddArticlePost = (req, res, next) => {
     const product = new Product(req.body);
@@ -47,7 +47,7 @@ module.exports.productdAddArticlePost = (req, res, next) => {
     product.save()
     .then(doc => res.status(numberConstants.successNum).json({doc}))
     .catch(err => res.status(numberConstants.internalServerNum).json({error: err.message}));
-}
+};
 
 module.exports.productdFindArticlesGet = (req, res, next) => {
     const query = req.query;
@@ -63,7 +63,7 @@ module.exports.productdFindArticlesGet = (req, res, next) => {
     .exec()
     .then(doc => res.status(numberConstants.successNum).json({doc}))
     .catch(err => res.status(numberConstants.internalServerNum).json({error: err.message}));
-}
+};
 
 module.exports.productFindArticleByIdGet = (req, res, next) => {
     let items = req.query.id;
@@ -81,4 +81,4 @@ module.exports.productFindArticleByIdGet = (req, res, next) => {
     .exec()
     .then(doc => res.status(numberConstants.successNum).json({doc}))
     .catch(err => res.status(numberConstants.internalServerNum).json({error: err.message}));
-}
+};

@@ -1,38 +1,28 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    userData: {isAuth: false},
-    isLoading: false,
-    error: ''
+    userData: {isAuth: false}
 };
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.LOGIN_USER_START:
-            return {
-                ...state,
-                isLoading: true,
-                error: ''
-            }; 
-        case actionTypes.LOGIN_USER_FAILED:
-            return {
-                ...state,
-                userData: {isAuth: false},
-                isLoading: false,
-                error: action.error
-            };
-        case actionTypes.LOGIN_USER_SUCCESS:
-            return {
-                ...state,
-                userData: action.userData,
-                isLoading: false,
-                error: '',
-            };
+        case actionTypes.LOGIN_USER:
+            // old school syntax
+            // return {
+            //     ...state,
+            //     userData: action.payload.data
+            // };
+            return Object.assign({}, state, {
+                userData: action.payload.data
+            });
         case actionTypes.AUTH_USER:
-            return {
-                ...state,
+            return Object.assign({}, state, {
                 userData: action.payload
-            };
+            });
+        case actionTypes.CLEAR_USER_STORE:
+            return Object.assign({}, state, {
+                userData: action.payload
+            });
         default:
             return state;
     }

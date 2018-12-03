@@ -1,3 +1,4 @@
+export const delay2sec = 2000;
 export const delay3sec = 3000;
 
 // TODO fetch from mongoDB

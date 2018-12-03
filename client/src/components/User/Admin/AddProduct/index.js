@@ -19,6 +19,7 @@ import { frets } from '../../../../shared/utils/numberConstants';
 import FormElement from '../../../UI/FormElement/FormElement';
 import UserLayout from '../../../../hoc/Layout/UserLayout';
 import ErrorMsg from '../Misc/ErrorMsg';
+import FileUploader from '../../../UI/FormElement/FileUploader';
 
 class AddProduct extends Component {
     state = {
@@ -190,6 +191,15 @@ class AddProduct extends Component {
                 isValid: false,
                 isTouched: false,
                 validationMsg: ''
+            },
+            images: {
+                value: [],
+                validation: {
+                    required: true
+                },
+                isValid: false,
+                isTouched: false,
+                validationMsg: ''
             }
         }
     };
@@ -269,6 +279,14 @@ class AddProduct extends Component {
         }
     }
 
+    imagesHandler = (images) => {
+        const newFormData = Object.assign({}, this.state.formData);
+        newFormData['images'].value = images;
+        newFormData['images'].isValid = true;
+
+        this.setState({formData: newFormData});
+    }
+
     onChangeHandler = (element) => {
         const newFormData = bindFormElementValue(element, this.state.formData);
 
@@ -295,6 +313,10 @@ class AddProduct extends Component {
                 <div>
                     <h1>Add Product</h1>
                     <form onSubmit={(event) => this.submitFormHandler(event)}>
+                        <FileUploader
+                            imagesHandler={(images) => this.imagesHandler(images)}
+                            reset={this.state.formSuccessMsg}
+                        />
                         <FormElement 
                             id={this.state.formData.name.config.name}
                             formData={this.state.formData.name}

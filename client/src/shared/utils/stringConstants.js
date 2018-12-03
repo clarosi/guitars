@@ -1,1 +1,1 @@
-export const tokenName = 'guitarsToken';
+export const tokenName = 'guitarsTokenX';

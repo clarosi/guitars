@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const cloudinary = require('cloudinary');
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
 const numberConstants = require('../../shared/utility/numberConstants');
@@ -7,20 +8,47 @@ const User = require('../models/user');
 
 const ERR_MSG = 'Auth failed, invalid email or password.';
 
+cloudinary.config({
+    cloud_name: 'clarosian',
+    api_key: '999325945145299',
+    api_secret: 'SfZuXqVEKmPJ7MBJKJ2kL0j0GBA'
+});
+
 module.exports.userLogoutGet = (req, res, next) => {
     User.findOneAndUpdate({_id: req.user._id}, {token: ''}, (err, doc) => {
         if (err) return res.status(numberConstants.internalServerNum).json({message: err.message});
 
         res.status(numberConstants.successNum).json({doc});
     });
-}
+};
+
+module.exports.userRemoveImageGet = (req, res, next) => {
+    const public_id = req.query.public_id;
+
+    cloudinary.uploader.destroy(public_id, (err, doc) => {
+        res.status(numberConstants.successNum).json({removeSuccess: true});
+    });
+};
+
+module.exports.userUploadImagePost = (req, res, next) => {
+    cloudinary.uploader.upload(req.files.image.path, result => {
+        res.status(numberConstants.successNum).send({
+           public_id: result.public_id,
+           url: result.url
+        });
+    }, {
+        public_id: `image_${Date.now()}`,
+        resource_type: 'auto'
+    }
+    ); 
+};
 
 module.exports.userSignUpPost = (req, res, next) => {
     const user = User(req.body);
     user.save()
     .then(doc => res.status(numberConstants.successNum).json({doc}))
     .catch(err => res.status(numberConstants.internalServerNum).json({error: err.message}));
-}
+};
 
 module.exports.userSignInPost = (req, res, next) => {
     User.findOne({email: req.body.email})
@@ -64,4 +92,4 @@ module.exports.userSignInPost = (req, res, next) => {
         }); 
     })
     .catch(err => res.status(numberConstants.internalServerNum).json({isAuth: false, error: err.message}));
-}
+};

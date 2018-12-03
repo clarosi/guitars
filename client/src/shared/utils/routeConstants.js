@@ -1,5 +1,7 @@
 export const shopRoute = '/store/shop';
 
+export const productDetailsRoute = '/product-details';
+
 export const userDashboardRoute = '/user/dashboard';
 export const userProfileRoute = '/user/profile';
 export const userCartRoute = '/user/cart';

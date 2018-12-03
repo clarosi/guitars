@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 
-import * as actions from '../../store/actions/';
+import { loginUser } from '../../store/actions/';
 import { userDashboardRoute } from '../../shared/utils/routeConstants';
+import { tokenName } from '../../shared/utils/stringConstants';
 import { connect } from 'react-redux';
-import { withRouter, Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { bindFormElementValue, generateDataToSubmit, verifyFormIsValid } from '../../shared/utils/helperFunctions';
 import FormElement from '../UI/FormElement/FormElement';
 import Button from '@material-ui/core/Button';
@@ -11,6 +12,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 class Login extends Component {
     state = {
+        isLoading: false,
         formHasError: false,
         formSuccessMsg: '',
         formData: {
@@ -55,12 +57,24 @@ class Login extends Component {
         const formIsValid = verifyFormIsValid(this.state.formData);
 
         if (formIsValid) {
+            this.setState({isLoading: true});
             const credentials = {
                 email: dataToSubmit.txtEmail,
                 password: dataToSubmit.txtPassword
             };
 
-            this.props.onLoginUser(credentials)       
+            this.props.dispatch(loginUser(credentials))
+            .then(res => {
+                localStorage.setItem(tokenName, res.payload.data.user.token);
+                this.setState({isLoading: false});   
+                this.props.history.push(`${userDashboardRoute}`)
+            })
+            .catch(() => {
+                this.setState({
+                    formHasError: true,
+                    isLoading: false
+                });
+            })
         }
         else {
             this.setState({formHasError: true});
@@ -78,13 +92,8 @@ class Login extends Component {
     }
 
     render() {
-        let redirect = null;
-        if (this.props.userData.isAuth)
-            redirect = <Redirect to={userDashboardRoute} />;
-
         return (
             <div className="signin_wrapper">
-                {redirect}
                 <form onSubmit={(event) => this.submitFormHandler(event)}>
                     <FormElement 
                         id={this.state.formData.txtEmail.config.name}
@@ -101,9 +110,9 @@ class Login extends Component {
                         color="primary"
                         onClick={(event) => this.submitFormHandler(event)}
                     >
-                        {this.props.isLoading ? <CircularProgress size={30} /> : 'Login'}
+                        {this.state.isLoading ? <CircularProgress size={30} /> : 'Login'}
                     </Button>
-                    {this.state.formHasError || this.props.error ?
+                    {this.state.formHasError ?
                         <div className="error_label">Invalid email or password, please try again.</div>
                         :
                         null
@@ -114,18 +123,10 @@ class Login extends Component {
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onLoginUser: (credentials) => dispatch(actions.loginUser(credentials))
-    };
-};
-
 const mapStateToProps = state => {
-    return {   
-        userData: state.userLogin.userData,
-        isLoading: state.userLogin.isLoading,
-        error: state.userLogin.error
+    return {
+        userData: state.userLogin.userData
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));
+export default connect(mapStateToProps)(withRouter(Login));

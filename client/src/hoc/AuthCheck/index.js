@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { authUser } from '../../store/actions/';
 import { registerLoginRoute, userDashboardRoute } from '../../shared/utils/routeConstants';
+import { tokenName } from '../../shared/utils/stringConstants';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 export default (WrappedComponent, isProtected, isAdminRoute = null) => {
@@ -33,10 +34,21 @@ export default (WrappedComponent, isProtected, isAdminRoute = null) => {
                 })
                 .catch(err => {
                     //should not happen
+                    console.log('this should not happen...');
                 });
             }
-            else
-                this.setState({isLoading: false});  
+            else {
+                const token = localStorage.getItem(tokenName);
+                if (token) {
+                    this.props.dispatch(authUser())
+                    .then((res) => {
+                        if (typeof res.payload === 'string')
+                            localStorage.removeItem(tokenName);
+                    });
+                }
+                this.setState({isLoading: false});
+            }
+                  
         }
 
         render() {

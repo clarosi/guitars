@@ -9,7 +9,7 @@ module.exports.brandCreatePost = (req, res, next) => {
     brand.save()
     .then(doc => res.status(numberConstants.successNum).json({doc}))
     .catch(err => res.status(numberConstants.internalServerNum).json({error: err.message}));
-}
+};
 
 module.exports.brandRetrieveGet = (req, res, next) => {
     Brand.find({}, (err, brands) => {
@@ -17,4 +17,4 @@ module.exports.brandRetrieveGet = (req, res, next) => {
 
         res.status(numberConstants.successNum).json({brands});
     });
-}
+};

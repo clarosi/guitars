@@ -9,7 +9,7 @@ module.exports.woodCreatePost = (req, res, next) => {
     wood.save()
     .then(doc => res.status(numberConstants.successNum).json({doc}))
     .catch(err => res.status(numberConstants.internalServerNum).json({error: err.message}));
-}
+};
 
 module.exports.woodRetrieveGet = (req, res, next) => {
     Wood.find({}, (err, woods) => {
@@ -17,4 +17,4 @@ module.exports.woodRetrieveGet = (req, res, next) => {
 
         res.status(numberConstants.successNum).json({woods});
     });
-}
+};

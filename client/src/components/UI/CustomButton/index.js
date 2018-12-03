@@ -23,14 +23,13 @@ const CustomButton = (props) => {
             case 'bag_link':
                 template = (
                     <div className="bag_link"
-                        onClick={() => {
-                            props.runAction()
-                        }}
+                        onClick={() => {props.runAction()}}
                     >
                         <FontAwesomeIcon icon={faShoppingBag} />
+                        {props.text ? props.text : null}
                     </div>
                 )
-                break;  
+                break;
             default:
                 template = ''
                 break;

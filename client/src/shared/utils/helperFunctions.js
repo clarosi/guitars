@@ -1,9 +1,9 @@
 import axios from '../../axios/axiosGuitars';
 
-export const axiosGetRequest = (url, actionType, data = null) => {
+export const axiosGetRequest = (url, actionType, data = null, defaultVal = null) => {
     const request = axios.get(url, data)
     .then(res => res.data)
-    .catch(err => err.response.data.error);
+    .catch(err => defaultVal ? defaultVal : err.response.data.error);
 
     return {
         type: actionType,
@@ -121,7 +121,10 @@ export const resetFormField = (formData) => {
   const newFormdata = Object.assign({}, formData);
 
   for (const key in newFormdata) {
-    newFormdata[key].value = '';
+    if (key === 'images')
+      newFormdata[key].value = [];
+    else
+      newFormdata[key].value = '';
     newFormdata[key].isValid = false;
     newFormdata[key].isTouched = false;
     newFormdata[key].validationMsg = ''

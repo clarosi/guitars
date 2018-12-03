@@ -1,6 +1,7 @@
 export { 
     loginUser, 
-    authUser 
+    authUser,
+    clearUserStore 
 } from './userLogin';
 
 export { 
@@ -9,6 +10,10 @@ export {
     getProductBrands,
     getProductWoods,
     getProductsToShop,
+    getProductDetails,
+    clearProduct,
+    clearProductDetails,
     addProduct,
-    clearProduct 
+    addProductBrand,
+    addProductWood 
 } from './products';

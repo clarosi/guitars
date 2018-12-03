@@ -11,6 +11,7 @@ import ManageCategories from './components/User/Admin/ManageCategories';
 
 import Home from './components/Home/';
 import Shop from './components/Shop/';
+import ProductDetails from './components/Product/';
 import RegisterLoginContainer from './containers/RegisterLogin/';
 import Register from './components/RegisterLogin/Register';
 import Dashboard from './components/User/Dashboard';
@@ -28,6 +29,7 @@ const App = (props) => {
 
         <Route path={routes.registerLoginRoute} component={AuthCheck(RegisterLoginContainer, false)} />  
         <Route path={routes.registerRoute} component={AuthCheck(Register, false)} />
+        <Route path={`${routes.productDetailsRoute}/:productId`} component={AuthCheck(ProductDetails, null)} />
 
         <Route path={routes.shopRoute} component={AuthCheck(Shop, null)} />
         <Route exact path="/" component={AuthCheck(Home, null)} />
