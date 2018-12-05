@@ -66,7 +66,7 @@ class Header extends Component {
                 key={item._id}
                 className="cart_link"
             >
-                <span>{this.props.userData.cart ? this.props.userData.cart.length : 0}</span>
+                <span>{this.props.userData.user.cart ? this.props.userData.user.cart.length : 0}</span>
                 <Link to={item.linkTo}>
                     {item.name}
                 </Link>

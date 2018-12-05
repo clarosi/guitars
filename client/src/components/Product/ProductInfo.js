@@ -40,7 +40,7 @@ const ProductInfo = (props) => {
                     <CustomButton
                         type="bag_link"
                         text=" Add to cart"
-                        runAction={() => {console.log('addCartHandler')}}
+                        runAction={() => props.addToCart(details._id)}
                     />
                 </div>
                 :null

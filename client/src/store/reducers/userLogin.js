@@ -23,6 +23,22 @@ const reducer = (state = initialState, action) => {
             return Object.assign({}, state, {
                 userData: action.payload
             });
+        case actionTypes.GET_CART_ITEMS_USER: {
+            return Object.assign({}, state, {
+                cartItems: action.payload
+            });  
+        }
+        case actionTypes.ADD_TO_CART_USER:
+            const copyUserData = Object.assign({}, state.userData);
+            const newUser = copyUserData.user;
+            newUser.cart = action.payload.data.doc;
+
+            return Object.assign({}, state, {
+                userData: {
+                    ...state.userData,
+                    user: newUser
+                }
+            });
         default:
             return state;
     }

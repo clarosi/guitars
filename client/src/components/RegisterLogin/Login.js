@@ -64,17 +64,24 @@ class Login extends Component {
             };
 
             this.props.dispatch(loginUser(credentials))
-            .then(res => {
-                localStorage.setItem(tokenName, res.payload.data.user.token);
-                this.setState({isLoading: false});   
-                this.props.history.push(`${userDashboardRoute}`)
+            .then(res => { 
+                if (res.payload.data.isAuth) {
+                    localStorage.setItem(tokenName, res.payload.data.user.token);
+                    this.props.history.push(userDashboardRoute.toString());
+                }
+                else {
+                    this.setState({
+                        formHasError: true,
+                        isLoading: false
+                    });
+                } 
             })
             .catch(() => {
                 this.setState({
                     formHasError: true,
                     isLoading: false
                 });
-            })
+            });
         }
         else {
             this.setState({formHasError: true});

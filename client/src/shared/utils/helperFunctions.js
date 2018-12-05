@@ -11,7 +11,7 @@ export const axiosGetRequest = (url, actionType, data = null, defaultVal = null)
     };
 };
 
-export const axiosPostRequest = (url, actionType, data = null, prevData = []) => {
+export const axiosPostRequest = (url, actionType, data = null, prevData = [], defaultVal = null) => {
     const request = axios.post(url, data)
     .then(res => {
       return {
@@ -19,7 +19,8 @@ export const axiosPostRequest = (url, actionType, data = null, prevData = []) =>
         prevData
       };
     })
-    .catch(err => err.response.data.error);
+    .catch(err => defaultVal ? defaultVal : err.response.data.error);
+
     return {
         type: actionType,
         payload: request
@@ -127,7 +128,7 @@ export const resetFormField = (formData) => {
       newFormdata[key].value = '';
     newFormdata[key].isValid = false;
     newFormdata[key].isTouched = false;
-    newFormdata[key].validationMsg = ''
+    newFormdata[key].validationMsg = '';
   }
 
   return newFormdata;

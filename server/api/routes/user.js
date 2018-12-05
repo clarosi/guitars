@@ -24,4 +24,6 @@ router.post('/signin', userController.userSignInPost);
 
 router.post('/signup', userController.userSignUpPost);
 
+router.post('/add_to_cart_user', auth, userController.userAddToCartUserPost);
+
 module.exports = router;

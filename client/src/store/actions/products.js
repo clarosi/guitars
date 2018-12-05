@@ -4,10 +4,12 @@ import * as endPoint from '../../shared/utils/endPointContants';
 import { axiosGetRequest, axiosPostRequest } from '../../shared/utils/helperFunctions';
 import { tokenName } from '../../shared/utils/stringConstants';
 
-const TOKEN = localStorage.getItem(tokenName);
+//export const TOKEN = localStorage.getItem(tokenName);
 
 // Promise base action creators
 // axiosGetRequest(url, actionType, data = null, defaultVal = null)
+// axiosPostRequest(url, actionType, data = null, prevData = [], defaultVal = null)
+
 export const getProductDetails = (productId) => {
     return axiosGetRequest(`${endPoint.productByIdEndPoint}?id=${productId}&type=single`, actionTypes.GET_PRODUCT_DETAILS, null, {doc: []});
 };
@@ -28,21 +30,23 @@ export const getProductWoods = () => {
     return axiosGetRequest(endPoint.productWoodsEndPoint, actionTypes.GET_PRODUCT_WOODS);
 };
 
-// axiosPostRequest(url, actionType, data = null, prevData = [])
 export const getProductsToShop = (payload, prevData = []) => {
     return axiosPostRequest(endPoint.getProductsToShopEndPoint, actionTypes.GET_PRODUCTS_TO_SHOP, payload, prevData);
 };
 
 export const addProduct = (payload) => {       
-    return axiosPostRequest(`${endPoint.productAddEndPoint}?token=${TOKEN}`, actionTypes.ADD_PRODUCT, payload);
+    const token = localStorage.getItem(tokenName);
+    return axiosPostRequest(`${endPoint.productAddEndPoint}?token=${token}`, actionTypes.ADD_PRODUCT, payload);
 };
 
 export const addProductBrand = (payload, prevData = []) => {
-    return axiosPostRequest(`${endPoint.productAddBrandEndPoint}?token=${TOKEN}`, actionTypes.ADD_PRODUCT_BRAND, payload, prevData);
+    const token = localStorage.getItem(tokenName);
+    return axiosPostRequest(`${endPoint.productAddBrandEndPoint}?token=${token}`, actionTypes.ADD_PRODUCT_BRAND, payload, prevData);
 };
 
 export const addProductWood = (payload, prevData = []) => {
-    return axiosPostRequest(`${endPoint.productAddWoodEndPoint}?token=${TOKEN}`, actionTypes.ADD_PRODUCT_WOOD, payload, prevData);
+    const token = localStorage.getItem(tokenName);
+    return axiosPostRequest(`${endPoint.productAddWoodEndPoint}?token=${token}`, actionTypes.ADD_PRODUCT_WOOD, payload, prevData);
 };
 
 export const clearProduct = () => {

@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import { getProductDetails, clearProductDetails } from '../../store/actions/';
+import { 
+    getProductDetails, 
+    clearProductDetails,
+    addToCartUser 
+} from '../../store/actions/';
 import ProductInfo from './ProductInfo';
 import ProductImage from './ProductImage';
 import PageTop from '../UI/PageTop/';
+import CustomizedSnackbars from '../UI/SnackBars/';
+import { delay3sec } from '../../shared/utils/numberConstants'
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 class ProductDetails extends Component {
+    state = {
+        showSnackbar: false
+    };
 
     componentWillUnmount() {
         this.props.dispatch(clearProductDetails());
@@ -24,11 +33,27 @@ class ProductDetails extends Component {
         });
     }
 
-    addToCartHandler = (_id) => {
-
+    addToCartHandler = (id) => {
+        this.props.dispatch(addToCartUser(id))
+        .then(res => {
+            this.setState({showSnackbar: true});
+            setTimeout(() => {
+                this.setState({showSnackbar: false});
+            }, delay3sec)
+        });
     }
 
     render() {
+        const customizedSnackbars = (
+            <CustomizedSnackbars
+                open={this.state.showSnackbar}
+                vertical="top"
+                horizontal="right"
+                variant="success"
+                message="Item successfully added to cart."
+            />
+        );
+
         return (
             <div>
                 <PageTop title="Product Details" />
@@ -42,7 +67,7 @@ class ProductDetails extends Component {
                             </div>
                             <div className="right">
                                 <ProductInfo
-                                    addToCart={(_id) => this.addToCartHandler(_id)}
+                                    addToCart={(id) => this.addToCartHandler(id)}
                                     details={this.props.productDetails}
                                 />
                             </div>
@@ -51,6 +76,7 @@ class ProductDetails extends Component {
                         <LinearProgress />
                     }
                 </div>
+                {customizedSnackbars}
             </div>
         );
     }

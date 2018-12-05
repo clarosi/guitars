@@ -11,6 +11,7 @@ const brandRoute = require('./api/routes/brand');
 const woodRoute = require('./api/routes/wood');
 const productRoute = require('./api/routes/product');
 
+// lets us define an invironment variables inside .env file
 require('dotenv').config();
 
 // Configure app bodyParser() and cookieParser()

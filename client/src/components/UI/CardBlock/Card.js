@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import CustomButton from '../../UI/CustomButton/';
+import { addToCartUser } from '../../../store/actions/';
 import { productDetailsRoute } from '../../../shared/utils/routeConstants';
+import { delay3sec } from '../../../shared/utils/numberConstants'
+import CustomButton from '../../UI/CustomButton/';
+import CustomizedSnackbars from '../../UI/SnackBars/';
 
 class Card extends Component {
+    state = {
+        showSnackbar: false
+    };
+
     renderCardImageHandler = (images) => {
         if (images.length > 0)
             return images[0].url;
@@ -12,7 +19,27 @@ class Card extends Component {
             return '../images/image_not_available.png';
     }
 
+    addToCartHandler = (id) => {
+       this.props.dispatch(addToCartUser(id))
+       .then(res => {
+            this.setState({showSnackbar: true});
+            setTimeout(() => {
+                this.setState({showSnackbar: false});
+            }, delay3sec)
+        });
+    }
+
     render() {
+        const customizedSnackbars = (
+            <CustomizedSnackbars
+                open={this.state.showSnackbar}
+                vertical="top"
+                horizontal="right"
+                variant="success"
+                message="Item successfully added to cart."
+            />
+        );
+
         return (
             <div className={`card_item_wrapper ${this.props.grid}`}>
                 <div
@@ -47,15 +74,14 @@ class Card extends Component {
                             <div className="button_wrapp">
                                 <CustomButton
                                     type="bag_link"
-                                    runAction={() => {
-                                        console.log('run action');
-                                    }}
+                                    runAction={() => this.addToCartHandler(this.props._id)}
                                 />
                             </div>
                             : null
                         }
                     </div>
                 </div>
+                {customizedSnackbars}
             </div>
         );
     }

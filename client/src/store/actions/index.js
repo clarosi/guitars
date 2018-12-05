@@ -1,7 +1,9 @@
 export { 
     loginUser, 
     authUser,
-    clearUserStore 
+    clearUserStore,
+    addToCartUser,
+    getCartItemUser
 } from './userLogin';
 
 export { 
@@ -15,5 +17,5 @@ export {
     clearProductDetails,
     addProduct,
     addProductBrand,
-    addProductWood 
+    addProductWood
 } from './products';
