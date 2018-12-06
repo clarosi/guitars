@@ -1,7 +1,8 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    userData: {isAuth: false}
+    userData: {isAuth: false},
+    cartItemDetails: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -25,7 +26,7 @@ const reducer = (state = initialState, action) => {
             });
         case actionTypes.GET_CART_ITEMS_USER: {
             return Object.assign({}, state, {
-                cartItems: action.payload
+                cartItemDetails: action.payload
             });  
         }
         case actionTypes.ADD_TO_CART_USER:

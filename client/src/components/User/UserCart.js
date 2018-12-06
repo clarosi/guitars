@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
+import { getCartItemUser } from '../../store/actions/';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import UserLayout from '../../hoc/Layout/UserLayout';
+import ProductBlock from '../UI/ProductBlock/';
 import faFrown from '@fortawesome/fontawesome-free-solid/faFrown';
 import faSmile from '@fortawesome/fontawesome-free-solid/faSmile';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 class UserCart extends Component {
     state = {
@@ -15,21 +18,89 @@ class UserCart extends Component {
     };
 
     componentDidMount() {
-        const cartItem = [];
+        const cartItems = [];
         const { userData } = this.props;
-        console.log(userData.user.cart);
+
         if (userData.user.cart.length > 0) {
+            this.setState({loading: true});
+
             userData.user.cart.forEach(item => {
-                cartItem.push(item.id);
+                cartItems.push(item.id);
+            });
+
+            this.props.dispatch(getCartItemUser(cartItems, userData.user.cart))
+            .then(() => {
+                this.setState({loading: false});
+
+                if (this.props.cartItemDetails.length > 0) {
+                    this.calculateTotalHandler(this.props.cartItemDetails);
+                }
+                console.log(this.props.cartItemDetails);
             });
         }
+    }
+
+    calculateTotalHandler = (cartItemDetails) => {
+        let total = 0;
+
+        cartItemDetails.forEach(item => {
+            total += parseInt(item.price, 10) * item.quantity;
+        });
+
+        this.setState({
+            total,
+            showTotal: true
+        });
+    }
+
+    removeCartItemHandler = (id) => {
+        console.log(id);
     }
 
     render() {
         return (
             <UserLayout>
             <div>
-                Cart
+                <h1>My Cart</h1>
+                <div className="user_cart">
+                    {!this.state.loading ?
+                        <React.Fragment>
+                            <ProductBlock
+                                products={this.props.cartItemDetails}
+                                removeCartItem={(id) => this.removeCartItemHandler(id)}
+                            />
+                            {this.state.showTotal ?
+                                <div>
+                                    <div className="user_cart_sum">
+                                        <div>
+                                            Total amount: $ {this.state.total}
+                                        </div>
+                                    </div>
+                                </div>
+                                :
+                                this.state.showSuccess ?
+                                    <div className="cart_success">
+                                        <FontAwesomeIcon icon={faSmile} />
+                                        <div>Thank you.</div>
+                                    </div>
+                                    :
+                                    <div className="cart_no_items">
+                                        <FontAwesomeIcon icon={faFrown} />
+                                        <div>You have no items.</div>
+                                    </div>
+                                
+                            }
+                        </React.Fragment>        
+                        :
+                        <LinearProgress />
+                    }
+                </div>
+                {this.state.total ?
+                    <div className="paypal_button_container">
+                        Paypal
+                    </div>
+                    :null
+                }
             </div>
             </UserLayout>
         );
@@ -38,7 +109,8 @@ class UserCart extends Component {
 
 const mapStateToProps = state => {
     return {
-        userData: state.userLogin.userData
+        userData: state.userLogin.userData,
+        cartItemDetails: state.userLogin.cartItemDetails
     };
 };
 

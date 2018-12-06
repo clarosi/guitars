@@ -15,7 +15,7 @@ class Header extends Component {
         user: [
             {_id: 3, name: 'My Cart', linkTo: routes.userCartRoute, public: false},
             {_id: 4, name: 'My Account', linkTo: routes.userDashboardRoute, public: false},
-            {_id: 5, name: 'Log in', linkTo: routes.registerLoginRoute, public: true},
+            {_id: 5, name: 'Sign up / Sign in', linkTo: routes.registerLoginRoute, public: true},
             {_id: 6, name: 'Log out', linkTo: routes.userLogoutRoute, public: false}
         ]
     };

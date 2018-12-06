@@ -10,13 +10,13 @@ const productController = require('../controllers/product');
 
 // By Sold
 //articles?sortBy=sold&order=desc&limit=4
-router.get('/articles', productController.productdFindArticlesGet);
+router.get('/articles', productController.findArticlesGet);
 
 //articles_by_id?id=xxx,yyy,zzz&type=single
-router.get('/articles_by_id', productController.productFindArticleByIdGet);
+router.get('/articles_by_id', productController.findArticleByIdGet);
 
-router.post('/shop', productController.productGetByFiltersPost);
+router.post('/shop', productController.getByFiltersPost);
 
-router.post('/article', auth, admin, productController.productdAddArticlePost);
+router.post('/article', auth, admin, productController.addArticlePost);
 
 module.exports = router;

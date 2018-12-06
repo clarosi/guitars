@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addToCartUser } from '../../../store/actions/';
 import { productDetailsRoute } from '../../../shared/utils/routeConstants';
-import { delay3sec } from '../../../shared/utils/numberConstants'
+import { delay3sec } from '../../../shared/utils/numberConstants';
+import { getImage } from '../../../shared/utils/helperFunctions';
 import CustomButton from '../../UI/CustomButton/';
 import CustomizedSnackbars from '../../UI/SnackBars/';
 
@@ -13,10 +14,7 @@ class Card extends Component {
     };
 
     renderCardImageHandler = (images) => {
-        if (images.length > 0)
-            return images[0].url;
-        else
-            return '../images/image_not_available.png';
+        return getImage(images);
     }
 
     addToCartHandler = (id) => {

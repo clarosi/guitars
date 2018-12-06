@@ -5,8 +5,8 @@ const admin = require('../middlewares/admin');
 const numberConstants = require('../../shared/utility/numberConstants');
 const brandController = require('../controllers/brand');
 
-router.get('/brands', brandController.brandRetrieveGet);
+router.get('/brands', brandController.retrieveGet);
 
-router.post('/brand', auth, admin, brandController.brandCreatePost);
+router.post('/brand', auth, admin, brandController.createPost);
 
 module.exports = router;

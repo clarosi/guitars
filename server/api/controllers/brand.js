@@ -3,7 +3,7 @@ const numberConstants = require('../../shared/utility/numberConstants');
 
 const Brand = require('../models/brand');
 
-module.exports.brandCreatePost = (req, res, next) => {
+module.exports.createPost = (req, res, next) => {
     const brand = new Brand(req.body);
 
     brand.save()
@@ -11,7 +11,7 @@ module.exports.brandCreatePost = (req, res, next) => {
     .catch(err => res.status(numberConstants.internalServerNum).json({error: err.message}));
 };
 
-module.exports.brandRetrieveGet = (req, res, next) => {
+module.exports.retrieveGet = (req, res, next) => {
     Brand.find({}, (err, brands) => {
         if (err) return res.status(numberConstants.internalServerNum).json({error: err.message});
 

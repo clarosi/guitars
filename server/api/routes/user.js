@@ -14,16 +14,18 @@ router.get('/auth', auth, (req, res, next) => {
     });
 });
 
-router.get('/remove_image', auth, admin, userController.userRemoveImageGet);
+router.get('/remove_image', auth, admin, userController.removeImageGet);
 
-router.post('/upload_image', auth, admin, formidable(), userController.userUploadImagePost);
+router.post('/upload_image', auth, admin, formidable(), userController.uploadImagePost);
 
-router.get('/logout', auth, userController.userLogoutGet);
+router.get('/logout', auth, userController.logoutGet);
 
-router.post('/signin', userController.userSignInPost);
+router.get('/remove_from_cart', auth, userController.removeFromCartGet);
 
-router.post('/signup', userController.userSignUpPost);
+router.post('/signin', userController.signInPost);
 
-router.post('/add_to_cart_user', auth, userController.userAddToCartUserPost);
+router.post('/signup', userController.signUpPost);
+
+router.post('/add_to_cart_user', auth, userController.addToCartUserPost);
 
 module.exports = router;

@@ -3,7 +3,7 @@ const numberConstants = require('../../shared/utility/numberConstants');
 
 const Product = require('../models/product');
 
-module.exports.productGetByFiltersPost = (req, res, next) => {
+module.exports.getByFiltersPost = (req, res, next) => {
     const body = req.body;
     const order = body.order ? body.order : 'desc';
     const sortBy = body.sortBy ? body.sortBy : '_id';
@@ -41,7 +41,7 @@ module.exports.productGetByFiltersPost = (req, res, next) => {
     .catch(err => res.status(numberConstants.internalServerNum).json({error: err.message}));
 };
 
-module.exports.productdAddArticlePost = (req, res, next) => {
+module.exports.addArticlePost = (req, res, next) => {
     const product = new Product(req.body);
 
     product.save()
@@ -49,7 +49,7 @@ module.exports.productdAddArticlePost = (req, res, next) => {
     .catch(err => res.status(numberConstants.internalServerNum).json({error: err.message}));
 };
 
-module.exports.productdFindArticlesGet = (req, res, next) => {
+module.exports.findArticlesGet = (req, res, next) => {
     const query = req.query;
     const sortBy = query.sortBy ? query.sortBy : '_id';
     const order = query.order ? query.order : 'asc';
@@ -65,7 +65,7 @@ module.exports.productdFindArticlesGet = (req, res, next) => {
     .catch(err => res.status(numberConstants.internalServerNum).json({error: err.message}));
 };
 
-module.exports.productFindArticleByIdGet = (req, res, next) => {
+module.exports.findArticleByIdGet = (req, res, next) => {
     let items = req.query.id;
     const type = req.query.type;
 

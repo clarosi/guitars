@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import ImageLightBox from '../UI/LightBox/';
+import { getImage } from '../../shared/utils/helperFunctions';
 
 class ProductImage extends Component {
     state = {
@@ -23,12 +24,7 @@ class ProductImage extends Component {
     }
 
     renderCardImageHandler = (images) => {
-        if (images.length >0) {
-            return images[0].url;
-        }
-        else {
-            return '/images/image_not_available.png';
-        }
+        return getImage(images);
     }
     
     ligthboxHandler = (position) => {

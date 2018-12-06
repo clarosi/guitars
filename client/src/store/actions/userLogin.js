@@ -1,12 +1,9 @@
 import * as actionTypes from './actionTypes';
 
-import { 
-    signinEndPoint, 
-    authEndPoint,
-    addToCartUserEndPoint 
-} from '../../shared/utils/endPointContants';
+import * as route from '../../shared/utils/endPointContants';
 import { tokenName } from '../../shared/utils/stringConstants';
 import { axiosGetRequest, axiosPostRequest } from '../../shared/utils/helperFunctions';
+import axios from '../../axios/axiosGuitars';
 
 // Promise base action creators 
 // axiosGetRequest(url, actionType, data = null, defaultVal = null)
@@ -14,22 +11,36 @@ import { axiosGetRequest, axiosPostRequest } from '../../shared/utils/helperFunc
 
 export const authUser = () => {
     const token = localStorage.getItem(tokenName);
-    return axiosGetRequest(`${authEndPoint}?token=${token}`, actionTypes.AUTH_USER);
+    return axiosGetRequest(`${route.authEndPoint}?token=${token}`, actionTypes.AUTH_USER);
 };
 
 export const loginUser = (payload) => {
-    return axiosPostRequest(signinEndPoint, actionTypes.LOGIN_USER, payload, [], {data: {isAuth: false}});
+    return axiosPostRequest(route.signinEndPoint, actionTypes.LOGIN_USER, payload, [], {data: {isAuth: false}});
 };
 
 export const addToCartUser = (id) => {
     const token = localStorage.getItem(tokenName);
-    return axiosPostRequest(`${addToCartUserEndPoint}?token=${token}&id=${id}`, actionTypes.ADD_TO_CART_USER);
+    return axiosPostRequest(`${route.addToCartUserEndPoint}?token=${token}&id=${id}`, actionTypes.ADD_TO_CART_USER);
 };
 
-export const getCartItemUser = () => {
+export const getCartItemUser = (cartItems, userCart) => {
+    const request = axios.get(`${route.productByIdEndPoint}?id=${cartItems}&type=array`)
+    .then(res => {
+        userCart.forEach(itemCart => {
+            res.data.doc.forEach((itemDoc, index) => {
+                if (itemCart.id === itemDoc._id) {
+                    res.data.doc[index].quantity = itemCart.quantity
+                }
+            });
+        });
+
+        return res.data.doc;
+    })
+    .catch(() => []);
+
     return {
         type: actionTypes.GET_CART_ITEMS_USER,
-        payload: null
+        payload: request
     };
 };
 

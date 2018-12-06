@@ -14,7 +14,7 @@ cloudinary.config({
     api_secret: 'SfZuXqVEKmPJ7MBJKJ2kL0j0GBA'
 });
 
-module.exports.userLogoutGet = (req, res, next) => {
+module.exports.logoutGet = (req, res, next) => {
     User.findOneAndUpdate({_id: req.user._id}, {token: ''}, (err, doc) => {
         if (err) return res.status(numberConstants.internalServerNum).json({message: err.message});
 
@@ -22,7 +22,11 @@ module.exports.userLogoutGet = (req, res, next) => {
     });
 };
 
-module.exports.userRemoveImageGet = (req, res, next) => {
+module.exports.removeFromCartGet = (req, res, next) => {
+
+};
+
+module.exports.removeImageGet = (req, res, next) => {
     const public_id = req.query.public_id;
 
     cloudinary.uploader.destroy(public_id, (err, doc) => {
@@ -30,7 +34,7 @@ module.exports.userRemoveImageGet = (req, res, next) => {
     });
 };
 
-module.exports.userUploadImagePost = (req, res, next) => {
+module.exports.uploadImagePost = (req, res, next) => {
     cloudinary.uploader.upload(req.files.image.path, result => {
         res.status(numberConstants.successNum).send({
            public_id: result.public_id,
@@ -43,14 +47,14 @@ module.exports.userUploadImagePost = (req, res, next) => {
     ); 
 };
 
-module.exports.userSignUpPost = (req, res, next) => {
+module.exports.signUpPost = (req, res, next) => {
     const user = User(req.body);
     user.save()
     .then(doc => res.status(numberConstants.successNum).json({doc}))
     .catch(err => res.status(numberConstants.internalServerNum).json({error: err.message}));
 };
 
-module.exports.userAddToCartUserPost = (req, res, next) => {
+module.exports.addToCartUserPost = (req, res, next) => {
     User.findOne({_id: req.user._id})
     .exec()
     .then(user => {
@@ -101,7 +105,7 @@ module.exports.userAddToCartUserPost = (req, res, next) => {
     });
 };
 
-module.exports.userSignInPost = (req, res, next) => {
+module.exports.signInPost = (req, res, next) => {
     User.findOne({email: req.body.email})
     .exec()
     .then(user => {
