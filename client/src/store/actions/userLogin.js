@@ -44,6 +44,27 @@ export const getCartItemUser = (cartItems, userCart) => {
     };
 };
 
+export const removeCartItem = (id) => {
+    const token = localStorage.getItem(tokenName);
+    const request = axios.get(`${route.removeFromCartEndPoint}?token=${token}&id=${id}`)
+    .then(res => {
+        res.data.cart.forEach(itemCart => {
+            res.data.cartDetails.forEach((itemDetails, index) => {
+                if (itemCart.id === itemDetails._id) {
+                    res.data.cartDetails[index].quantity = itemCart.quantity;
+                }
+            });
+        });
+
+        return res.data;
+    });
+
+    return {
+        type: actionTypes.REMOVE_CART_ITEM,
+        payload: request
+    };
+}
+
 export const clearUserStore = () => {
     return {
         type: actionTypes.CLEAR_USER_STORE,

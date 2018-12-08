@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import { getCartItemUser } from '../../store/actions/';
+import { getCartItemUser, removeCartItem } from '../../store/actions/';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import UserLayout from '../../hoc/Layout/UserLayout';
 import ProductBlock from '../UI/ProductBlock/';
@@ -35,7 +35,6 @@ class UserCart extends Component {
                 if (this.props.cartItemDetails.length > 0) {
                     this.calculateTotalHandler(this.props.cartItemDetails);
                 }
-                console.log(this.props.cartItemDetails);
             });
         }
     }
@@ -54,7 +53,15 @@ class UserCart extends Component {
     }
 
     removeCartItemHandler = (id) => {
-        console.log(id);
+        this.props.dispatch(removeCartItem(id))
+        .then(res => {
+            if (this.props.cartItemDetails.length === 0) {
+                this.setState({showTotal: false})
+            }
+            else {
+                this.calculateTotalHandler(this.props.cartItemDetails);
+            }
+        });
     }
 
     render() {
@@ -95,7 +102,7 @@ class UserCart extends Component {
                         <LinearProgress />
                     }
                 </div>
-                {this.state.total ?
+                {this.state.showTotal ?
                     <div className="paypal_button_container">
                         Paypal
                     </div>

@@ -5,6 +5,7 @@ const bcryptjs = require('bcryptjs');
 const numberConstants = require('../../shared/utility/numberConstants');
 
 const User = require('../models/user');
+const Product = require('../models/product');
 
 const ERR_MSG = 'Auth failed, invalid email or password.';
 
@@ -23,7 +24,32 @@ module.exports.logoutGet = (req, res, next) => {
 };
 
 module.exports.removeFromCartGet = (req, res, next) => {
+    User.findOneAndUpdate({_id: req.user._id},
+        {'$pull': 
+            {'cart': {'id': mongoose.Types.ObjectId(req.query.id)}}
+        },
+        {new: true},
+        (err, doc) => {
+            const cart = doc.cart;
+            const array = cart.map(item => {
+                return mongoose.Types.ObjectId(item.id);
+            });
 
+            Product.find({'_id': {$in: array}})
+            .populate('brand')
+            .populate('wood')
+            .exec((err, cartDetails) => {
+                if (err) return res.status(numberConstants.internalServerNum).json({
+                    cart: [],
+                    cartDetails: []
+                });
+                return res.status(numberConstants.successNum).json({
+                    cart,
+                    cartDetails
+                });
+            });
+        }
+    );
 };
 
 module.exports.removeImageGet = (req, res, next) => {

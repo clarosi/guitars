@@ -2,6 +2,8 @@ export const AUTH_USER = 'AUTH_USER';
 
 export const LOGIN_USER = 'LOGIN_USER';
 
+export const REMOVE_CART_ITEM = 'REMOVE_CART_ITEM';
+
 export const CLEAR_USER_STORE = 'CLEAR_USER_STORE';
 export const CLEAR_PRODUCT_DETAILS = 'CLEAR_PRODUCT_DETAILS';
 export const CLEAR_PRODUCT = 'CLEAR_PRODUCT';

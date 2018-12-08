@@ -3,7 +3,8 @@ export {
     authUser,
     clearUserStore,
     addToCartUser,
-    getCartItemUser
+    getCartItemUser,
+    removeCartItem
 } from './userLogin';
 
 export { 

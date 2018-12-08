@@ -10,7 +10,7 @@ import ProductInfo from './ProductInfo';
 import ProductImage from './ProductImage';
 import PageTop from '../UI/PageTop/';
 import CustomizedSnackbars from '../UI/SnackBars/';
-import { delay3sec } from '../../shared/utils/numberConstants'
+import { delay2sec } from '../../shared/utils/numberConstants'
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 class ProductDetails extends Component {
@@ -39,7 +39,7 @@ class ProductDetails extends Component {
             this.setState({showSnackbar: true});
             setTimeout(() => {
                 this.setState({showSnackbar: false});
-            }, delay3sec)
+            }, delay2sec)
         });
     }
 

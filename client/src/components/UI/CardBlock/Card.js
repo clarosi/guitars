@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addToCartUser } from '../../../store/actions/';
 import { productDetailsRoute } from '../../../shared/utils/routeConstants';
-import { delay3sec } from '../../../shared/utils/numberConstants';
+import { delay2sec } from '../../../shared/utils/numberConstants';
 import { getImage } from '../../../shared/utils/helperFunctions';
 import CustomButton from '../../UI/CustomButton/';
 import CustomizedSnackbars from '../../UI/SnackBars/';
@@ -23,7 +23,7 @@ class Card extends Component {
             this.setState({showSnackbar: true});
             setTimeout(() => {
                 this.setState({showSnackbar: false});
-            }, delay3sec)
+            }, delay2sec)
         });
     }
 
