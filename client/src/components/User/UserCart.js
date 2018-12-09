@@ -5,6 +5,7 @@ import { getCartItemUser, removeCartItem } from '../../store/actions/';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import UserLayout from '../../hoc/Layout/UserLayout';
 import ProductBlock from '../UI/ProductBlock/';
+import Paypal from '../UI/Paypal/';
 import faFrown from '@fortawesome/fontawesome-free-solid/faFrown';
 import faSmile from '@fortawesome/fontawesome-free-solid/faSmile';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -64,6 +65,19 @@ class UserCart extends Component {
         });
     }
 
+    transErrorHandler = (data) => {
+    }
+
+    transCanceledHandler = (data) => {      
+    }
+
+    transSuccessHandler = (data) => {   
+        this.setState({
+            showTotal: false,
+            showSuccess: true
+        });  
+    }
+
     render() {
         return (
             <UserLayout>
@@ -89,6 +103,7 @@ class UserCart extends Component {
                                     <div className="cart_success">
                                         <FontAwesomeIcon icon={faSmile} />
                                         <div>Thank you.</div>
+                                        <div>Payment success.</div>
                                     </div>
                                     :
                                     <div className="cart_no_items">
@@ -104,7 +119,12 @@ class UserCart extends Component {
                 </div>
                 {this.state.showTotal ?
                     <div className="paypal_button_container">
-                        Paypal
+                        <Paypal
+                            toPay={this.state.total}
+                            transError={(data) => this.transErrorHandler(data)}
+                            transCanceled={(data) => this.transCanceledHandler(data)}
+                            transSuccess={(data) => this.transSuccessHandler(data)}
+                        />
                     </div>
                     :null
                 }
