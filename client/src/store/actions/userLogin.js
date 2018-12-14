@@ -23,6 +23,17 @@ export const addToCartUser = (id) => {
     return axiosPostRequest(`${route.addToCartUserEndPoint}?token=${token}&id=${id}`, actionTypes.ADD_TO_CART_USER);
 };
 
+export const onSuccessPurchase = (data) => {
+    const token = localStorage.getItem(tokenName);
+    const request = axios.post(`${route.successPaymentEndPoint}?token=${token}`, data)
+    .then(res => res.data);
+    
+    return {
+        type: actionTypes.ON_SUCCESS_PURCHASE_USER,
+        payload: request
+    }; 
+};
+
 export const getCartItemUser = (cartItems, userCart) => {
     const request = axios.get(`${route.productByIdEndPoint}?id=${cartItems}&type=array`)
     .then(res => {

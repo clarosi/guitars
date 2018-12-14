@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import { getCartItemUser, removeCartItem } from '../../store/actions/';
+import { getCartItemUser, removeCartItem, onSuccessPurchase } from '../../store/actions/';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import UserLayout from '../../hoc/Layout/UserLayout';
 import ProductBlock from '../UI/ProductBlock/';
@@ -71,11 +71,19 @@ class UserCart extends Component {
     transCanceledHandler = (data) => {      
     }
 
-    transSuccessHandler = (data) => {   
-        this.setState({
-            showTotal: false,
-            showSuccess: true
-        });  
+    transSuccessHandler = (data) => {  
+        this.props.dispatch(onSuccessPurchase({
+            cartDetails: this.props.cartItemDetails,
+            paymentData: data
+        }))
+        .then(res => {
+            if (this.props.successPurchase) {
+                this.setState({
+                    showTotal: false,
+                    showSuccess: true
+                }); 
+            }
+        });
     }
 
     render() {
@@ -137,7 +145,8 @@ class UserCart extends Component {
 const mapStateToProps = state => {
     return {
         userData: state.userLogin.userData,
-        cartItemDetails: state.userLogin.cartItemDetails
+        cartItemDetails: state.userLogin.cartItemDetails,
+        successPurchase: state.userLogin.successPurchase
     };
 };
 

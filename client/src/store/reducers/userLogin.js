@@ -2,17 +2,13 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
     userData: {isAuth: false},
-    cartItemDetails: []
+    cartItemDetails: [],
+    successPurchase: false
 };
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.LOGIN_USER:
-            // old school syntax
-            // return {
-            //     ...state,
-            //     userData: action.payload.data
-            // };
             return Object.assign({}, state, {
                 userData: action.payload.data
             });
@@ -49,6 +45,19 @@ const reducer = (state = initialState, action) => {
                 userData: {
                     ...state.userData,
                     user: newUserAdd
+                }
+            });
+        case actionTypes.ON_SUCCESS_PURCHASE_USER:
+            const copyUserData = Object.assign({}, state.userData);
+            const newUser = copyUserData.user;
+            newUser.cart = action.payload.cart;
+
+            return Object.assign({}, state, {
+                successPurchase: action.payload.success,
+                cartItemDetails: action.payload.cartDetails,
+                userData: {
+                    ...state.userData,
+                    user: newUser
                 }
             });
         default:

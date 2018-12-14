@@ -22,6 +22,8 @@ router.get('/logout', auth, userController.logoutGet);
 
 router.get('/remove_from_cart', auth, userController.removeFromCartGet);
 
+router.post('/success_payment', auth, userController.successPayment);
+
 router.post('/signin', userController.signInPost);
 
 router.post('/signup', userController.signUpPost);

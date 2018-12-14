@@ -4,6 +4,8 @@ export const addToCartUserEndPoint = '/waves/api/user/add_to_cart_user';
 
 export const removeFromCartEndPoint = '/waves/api/user/remove_from_cart';
 
+export const successPaymentEndPoint = '/waves/api/user/success_payment';
+
 export const getProductsToShopEndPoint = '/waves/api/product/shop';
 
 export const uploadImageEndPoint = '/waves/api/user/upload_image';

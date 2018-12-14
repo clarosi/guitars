@@ -1,11 +1,13 @@
 const mongoose = require('mongoose');
 const cloudinary = require('cloudinary');
+const async = require('async');
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
 const numberConstants = require('../../shared/utility/numberConstants');
 
 const User = require('../models/user');
 const Product = require('../models/product');
+const Payment = require('../models/payment');
 
 const ERR_MSG = 'Auth failed, invalid email or password.';
 
@@ -73,6 +75,70 @@ module.exports.uploadImagePost = (req, res, next) => {
     ); 
 };
 
+module.exports.successPayment = (req, res, next) => {
+    const history = [];
+    let transData = {};
+
+    // user history
+    req.body.cartDetails.forEach(item => {
+        history.push({
+            dateOfPurchase: Date.now(),
+            name: item.name,
+            brand: item.brand.name,
+            id: item._id,
+            price: item.price,
+            quantity: item.quantity,
+            paymentId: req.body.paymentData.paymentID
+        });
+    });
+
+    // Payment Dash
+    transData.user = {
+        id: req.user._id,
+        firstname: req.user.firstname,
+        lastname: req.user.lastname,
+        email: req.user.email
+    };
+    transData.paymentData = req.body.paymentData.paymentID;
+    transData.product = history;
+
+    User.findOneAndUpdate(
+        {_id: req.user._id},
+        {$push: {history: history}, $set: {cart: []}},
+        {new: true},
+        (err, user) => {
+            if (err) return res.status(numberConstants.internalServerNum).json({success: false, error: err.message});
+
+            const payment = new Payment(transData);
+            payment.save((err, doc) => {
+                if (err) return res.status(numberConstants.internalServerNum).json({success: false, error: err.message});
+
+                const products = [];
+                doc.product.forEach(item => {
+                    products.push({id: item.id, quantity: item.quantity});
+                });
+
+                async.eachSeries(products, (item, callback) => {
+                    Product.update(
+                        {_id: item.id},
+                        { $inc: {'sold': item.quantity}},
+                        {new: false},
+                        callback
+                    );
+                }, (err) => {
+                    if (err) return res.status(numberConstants.internalServerNum).json({success: false, error: err.message});
+                    
+                    res.status(numberConstants.successNum).json({
+                        success: true,
+                        cart: [],
+                        cartDetails: []
+                    });
+                });
+            });
+        }
+    );
+};
+
 module.exports.signUpPost = (req, res, next) => {
     const user = User(req.body);
     user.save()
@@ -127,7 +193,6 @@ module.exports.addToCartUserPost = (req, res, next) => {
         }
     })
     .catch(err => {
-
     });
 };
 

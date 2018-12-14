@@ -4,7 +4,8 @@ export {
     clearUserStore,
     addToCartUser,
     getCartItemUser,
-    removeCartItem
+    removeCartItem,
+    onSuccessPurchase
 } from './userLogin';
 
 export { 

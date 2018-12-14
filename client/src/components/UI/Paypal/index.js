@@ -15,18 +15,7 @@ class Paypal extends Component {
         };
 
         const onSuccess = (payment) => {
-            //console.log('onSuccess: ', JSON.stringify(payment));
             this.props.transSuccess(payment);
-            // {
-            //     "paid":true,
-            //     "cancelled":false,
-            //     "payerID":"LWC9BGBGK6DCG",
-            //     "paymentID":"PAY-7GM09411KV1396139LQGN6MI",
-            //     "paymentToken":"EC-9VY88976PW171740P",
-            //     "returnUrl":"https://www.sandbox.paypal.com/?paymentId=PAY-7GM09411KV1396139LQGN6MI&token=EC-9VY88976PW171740P&PayerID=LWC9BGBGK6DCG",
-            //     "address":{"recipient_name":"test buyer","line1":"1 Main St","city":"San Jose","state":"CA","postal_code":"95131","country_code":"US"},
-            //     "email":"clarosian-buyer@yahoo.com"
-            // }
         };
 
         const onCancel = (data) => {
