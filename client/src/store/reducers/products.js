@@ -14,11 +14,6 @@ const initialState = {
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.GET_PRODUCT_DETAILS:
-            // old school syntax
-            // return {
-            //     ...state,
-            //     productDetails: action.payload.doc
-            // };
             return Object.assign({}, state, {
                 productDetails: action.payload.doc
             });

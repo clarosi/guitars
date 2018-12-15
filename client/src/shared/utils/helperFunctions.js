@@ -119,19 +119,19 @@ export const populateOptionFields = (formData, arrayData, field) => {
 };
 
 export const resetFormField = (formData) => {
-  const newFormdata = Object.assign({}, formData);
+  const newFormData = Object.assign({}, formData);
 
-  for (const key in newFormdata) {
+  for (const key in newFormData) {
     if (key === 'images')
-      newFormdata[key].value = [];
+      newFormData[key].value = [];
     else
-      newFormdata[key].value = '';
-    newFormdata[key].isValid = false;
-    newFormdata[key].isTouched = false;
-    newFormdata[key].validationMsg = '';
+      newFormData[key].value = '';
+    newFormData[key].isValid = false;
+    newFormData[key].isTouched = false;
+    newFormData[key].validationMsg = '';
   }
 
-  return newFormdata;
+  return newFormData;
 };
 
 export const getImage = (images) => {
@@ -141,4 +141,17 @@ export const getImage = (images) => {
   else {
     return '/images/image_not_available.png';
   }
+};
+
+export const populateFields = (formData, userData) => {
+  const newFormData = Object.assign({}, formData);
+
+  for (const key in newFormData) {
+    newFormData[key].value = userData[key];
+    newFormData[key].isValid = true;
+    newFormData[key].isTouched = true;
+    newFormData[key].validationMsg = '';
+  }
+
+  return newFormData;
 };

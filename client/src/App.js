@@ -16,6 +16,7 @@ import RegisterLoginContainer from './containers/RegisterLogin/';
 import Register from './components/RegisterLogin/Register';
 import UserCart from './components/User/UserCart';
 import Dashboard from './components/User/Dashboard';
+import UserProfile from './components/User/UserProfile';
 import PageNotFound from './components/UI/PageNotFound/';
 
 const App = (props) => {
@@ -27,6 +28,7 @@ const App = (props) => {
         <Route path={routes.adminManageCategoriesRoute} component={AuthCheck(ManageCategories, true)} />
 
         <Route path={routes.userDashboardRoute} component={AuthCheck(Dashboard, true)} />
+        <Route path={routes.userProfileRoute} component={AuthCheck(UserProfile, true)} />
         <Route path={routes.userCartRoute} component={AuthCheck(UserCart, true)} />
         
         <Route path={routes.registerLoginRoute} component={AuthCheck(RegisterLoginContainer, false)} />  

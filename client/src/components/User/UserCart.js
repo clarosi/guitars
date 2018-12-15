@@ -89,8 +89,8 @@ class UserCart extends Component {
     render() {
         return (
             <UserLayout>
-            <div>
-                <h1>My Cart</h1>
+            <div className="user_nfo_panel">
+                <h2>My Cart</h2>
                 <div className="user_cart">
                     {!this.state.loading ?
                         <React.Fragment>
