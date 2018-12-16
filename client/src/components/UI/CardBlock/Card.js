@@ -87,7 +87,7 @@ class Card extends Component {
 
 const mapStateToProps = state => {
     return {
-        userData: state.userLogin.userData
+        userData: state.user.userData
     };
 };
 

@@ -75,6 +75,21 @@ module.exports.uploadImagePost = (req, res, next) => {
     ); 
 };
 
+module.exports.updateProfile = (req, res, next) => {
+    User.findOneAndUpdate(
+        {_id: req.user._id},
+        {'$set': req.body},
+        {new: true},
+        (err, doc) => {
+            if (err) return res.status(numberConstants.internalServerNum).json({success: false, error: err.message});
+
+            res.status(numberConstants.successNum).json({
+                success: true
+            });
+        }
+    );
+};
+
 module.exports.successPayment = (req, res, next) => {
     const history = [];
     let transData = {};

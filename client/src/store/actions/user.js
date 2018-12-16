@@ -23,9 +23,14 @@ export const addToCartUser = (id) => {
     return axiosPostRequest(`${route.addToCartUserEndPoint}?token=${token}&id=${id}`, actionTypes.ADD_TO_CART_USER);
 };
 
-export const onSuccessPurchase = (data) => {
+export const updateUserProfile = (payload) => {
     const token = localStorage.getItem(tokenName);
-    const request = axios.post(`${route.successPaymentEndPoint}?token=${token}`, data)
+    return axiosPostRequest(`${route.updateProfileEndPoint}?token=${token}`, actionTypes.UPDATE_USER_PROFILE, payload);
+};
+
+export const onSuccessPurchase = (payload) => {
+    const token = localStorage.getItem(tokenName);
+    const request = axios.post(`${route.successPaymentEndPoint}?token=${token}`, payload)
     .then(res => res.data);
     
     return {
@@ -74,11 +79,11 @@ export const removeCartItem = (id) => {
         type: actionTypes.REMOVE_CART_ITEM,
         payload: request
     };
-}
+};
 
 export const clearUserStore = () => {
     return {
         type: actionTypes.CLEAR_USER_STORE,
         payload: {isAuth: false}
     };
-}
+};

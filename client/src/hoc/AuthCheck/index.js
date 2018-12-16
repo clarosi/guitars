@@ -66,7 +66,7 @@ export default (WrappedComponent, isProtected, isAdminRoute = null) => {
 
     const mapStateToProps = state => {
         return {
-            userData: state.userLogin.userData
+            userData: state.user.userData
         };
     };
     

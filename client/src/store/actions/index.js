@@ -5,8 +5,9 @@ export {
     addToCartUser,
     getCartItemUser,
     removeCartItem,
-    onSuccessPurchase
-} from './userLogin';
+    onSuccessPurchase,
+    updateUserProfile
+} from './user';
 
 export { 
     getProductBySell, 

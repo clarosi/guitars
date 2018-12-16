@@ -144,9 +144,9 @@ class UserCart extends Component {
 
 const mapStateToProps = state => {
     return {
-        userData: state.userLogin.userData,
-        cartItemDetails: state.userLogin.cartItemDetails,
-        successPurchase: state.userLogin.successPurchase
+        userData: state.user.userData,
+        cartItemDetails: state.user.cartItemDetails,
+        successPurchase: state.user.successPurchase
     };
 };
 
