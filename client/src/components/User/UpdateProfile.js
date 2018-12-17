@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
+import { updateUserProfile, clearUserProfile } from '../../store/actions/';
 import { 
     bindFormElementValue, 
     generateDataToSubmit, 
     verifyFormIsValid,
     populateFields
 } from '../../shared/utils/helperFunctions';
+import { delay2sec } from '../../shared/utils/numberConstants';
 import FormElement from '../UI/FormElement/FormElement';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 class UpdateProfile extends Component {
+    _isMounted = false;
+
     state = {
         isLoading: false,
         formHasError: false,
@@ -76,12 +80,38 @@ class UpdateProfile extends Component {
         this.setState({formData: newFormData});
     }
 
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
     submitFormHandler = (event) => {
         const dataToSubmit = generateDataToSubmit(this.state.formData);
         const formIsValid = verifyFormIsValid(this.state.formData);
 
         if (formIsValid) {
-            console.log(dataToSubmit);          
+            this._isMounted = true;
+            this.setState({isLoading: true})
+            this.props.dispatch(updateUserProfile(dataToSubmit)).then(() => {
+                if (this.props.updateUser) {
+                    if (this._isMounted) {
+                        this.setState({formSuccess: true, isLoading: false}, () => {
+                            if (this._isMounted) {
+                                setTimeout(() => {
+                                    this.props.dispatch(clearUserProfile());
+                                    this.setState({formSuccess: false});
+                                }, delay2sec);
+                            }
+                        });
+                    }
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                this.setState({
+                    isLoading: false,
+                    formHasError: true
+                });
+            });     
         }
         else {
             this.setState({formHasError: true});
@@ -93,6 +123,7 @@ class UpdateProfile extends Component {
 
         this.setState({
             formHasError: false,
+            formSuccess: false,
             formSuccessMsg: '',
             formErrorMsg: '',
             formData: newFormData
@@ -139,6 +170,11 @@ class UpdateProfile extends Component {
                         :
                         null
                     }
+                    {this.state.formSuccess ?
+                        <div style={{marginTop: '15px', color: '#32CD32'}}>Update success.</div>
+                        :
+                        null
+                    }
                 </form>
             </div>
         );
@@ -147,7 +183,8 @@ class UpdateProfile extends Component {
 
 const mapStateToProps = state => {
     return {
-        userData: state.user.userData
+        userData: state.user.userData,
+        updateUser: state.user.updateUser
     }
 }
 

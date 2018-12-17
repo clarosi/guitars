@@ -9,21 +9,30 @@ import CustomButton from '../../UI/CustomButton/';
 import CustomizedSnackbars from '../../UI/SnackBars/';
 
 class Card extends Component {
+    _isMounted = false;
+    
     state = {
         showSnackbar: false
     };
+
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
 
     renderCardImageHandler = (images) => {
         return getImage(images);
     }
 
     addToCartHandler = (id) => {
-       this.props.dispatch(addToCartUser(id))
-       .then(res => {
-            this.setState({showSnackbar: true});
-            setTimeout(() => {
-                this.setState({showSnackbar: false});
-            }, delay2sec)
+        this._isMounted = true;
+        this.props.dispatch(addToCartUser(id))
+        .then(res => {
+            if (this._isMounted) {   
+                this.setState({showSnackbar: true});
+                setTimeout(() => {
+                    if (this._isMounted) this.setState({showSnackbar: false});
+                }, delay2sec);
+            }
         });
     }
 

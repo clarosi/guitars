@@ -3,7 +3,8 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
     userData: {isAuth: false},
     cartItemDetails: [],
-    successPurchase: false
+    successPurchase: false,
+    updateUser: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -24,6 +25,14 @@ const reducer = (state = initialState, action) => {
             return Object.assign({}, state, {
                 cartItemDetails: action.payload
             });  
+        case actionTypes.UPDATE_USER_PROFILE:
+            return Object.assign({}, state, {
+                updateUser: action.payload.data.success
+            }); 
+        case actionTypes.CLEAR_USER_PROFILE:
+            return Object.assign({}, state, {
+                updateUser: action.payload
+            }); 
         case actionTypes.REMOVE_CART_ITEM:
             const copyUserDataRemove = Object.assign({}, state.userData);
             const newUserRemove = copyUserDataRemove.user;
@@ -50,11 +59,11 @@ const reducer = (state = initialState, action) => {
         case actionTypes.ON_SUCCESS_PURCHASE_USER:
             const copyUserData = Object.assign({}, state.userData);
             const newUser = copyUserData.user;
-            newUser.cart = action.payload.cart;
+            newUser.cart = action.payload.data.cart;
 
             return Object.assign({}, state, {
-                successPurchase: action.payload.success,
-                cartItemDetails: action.payload.cartDetails,
+                successPurchase: action.payload.data.success,
+                cartItemDetails: action.payload.data.cartDetails,
                 userData: {
                     ...state.userData,
                     user: newUser

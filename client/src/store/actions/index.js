@@ -2,6 +2,7 @@ export {
     loginUser, 
     authUser,
     clearUserStore,
+    clearUserProfile,
     addToCartUser,
     getCartItemUser,
     removeCartItem,

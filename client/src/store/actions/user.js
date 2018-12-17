@@ -30,13 +30,7 @@ export const updateUserProfile = (payload) => {
 
 export const onSuccessPurchase = (payload) => {
     const token = localStorage.getItem(tokenName);
-    const request = axios.post(`${route.successPaymentEndPoint}?token=${token}`, payload)
-    .then(res => res.data);
-    
-    return {
-        type: actionTypes.ON_SUCCESS_PURCHASE_USER,
-        payload: request
-    }; 
+    return axiosPostRequest(`${route.successPaymentEndPoint}?token=${token}`, actionTypes.ON_SUCCESS_PURCHASE_USER, payload);
 };
 
 export const getCartItemUser = (cartItems, userCart) => {
@@ -85,5 +79,12 @@ export const clearUserStore = () => {
     return {
         type: actionTypes.CLEAR_USER_STORE,
         payload: {isAuth: false}
+    };
+};
+
+export const clearUserProfile = () => {
+    return {
+        type: actionTypes.CLEAR_USER_PROFILE,
+        payload: false
     };
 };

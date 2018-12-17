@@ -81,11 +81,9 @@ module.exports.updateProfile = (req, res, next) => {
         {'$set': req.body},
         {new: true},
         (err, doc) => {
-            if (err) return res.status(numberConstants.internalServerNum).json({success: false, error: err.message});
+            if (err) return res.status(numberConstants.internalServerNum).json({success: false, message: err.message});
 
-            res.status(numberConstants.successNum).json({
-                success: true
-            });
+            res.status(numberConstants.successNum).json({success: true});
         }
     );
 };
