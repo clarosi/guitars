@@ -15,6 +15,7 @@ class Login extends Component {
         isLoading: false,
         formHasError: false,
         formSuccessMsg: '',
+        formErrorMsg: '',
         formData: {
             txtEmail: {
                 elementType: 'input',
@@ -71,6 +72,7 @@ class Login extends Component {
                 }
                 else {
                     this.setState({
+                        formErrorMsg: res.payload.data.error,
                         formHasError: true,
                         isLoading: false
                     });
@@ -94,6 +96,7 @@ class Login extends Component {
         this.setState({
             formHasError: false,
             formSuccessMsg: '',
+            formErrorMsg: '',
             formData: newFormData
         });
     }
@@ -120,7 +123,7 @@ class Login extends Component {
                         {this.state.isLoading ? <CircularProgress size={30} /> : 'Login'}
                     </Button>
                     {this.state.formHasError ?
-                        <div className="error_label">Invalid email or password, please try again.</div>
+                        <div className="error_label">{this.state.formErrorMsg ? this.state.formErrorMsg : 'Please enter username and password.'}</div>
                         :
                         null
                     }

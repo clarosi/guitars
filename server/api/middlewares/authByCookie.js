@@ -7,9 +7,9 @@ const authByCookie = (req, res, next) => {
     const token = req.cookies.w_auth;
 
     User.findByToken(token, (err, user) => {
-        if (err) return res.status(numberConstants.unAuthorizedNum).json({isAuth: false, message: ERR_MSG});
+        if (err) return res.json({isAuth: false, message: ERR_MSG});
 
-        if (!user) return res.status(numberConstants.unAuthorizedNum).json({isAuth: false, message: ERR_MSG});
+        if (!user) return res.json({isAuth: false, message: ERR_MSG});
 
         req.token = token;                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
         req.user = user;

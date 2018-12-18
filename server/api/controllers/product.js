@@ -35,18 +35,19 @@ module.exports.getByFiltersPost = (req, res, next) => {
     .limit(limit)
     .exec()
     .then(doc => res.status(numberConstants.successNum).json({
+        success: true,
         size: doc.length,
         articles: doc
     }))
-    .catch(err => res.status(numberConstants.internalServerNum).json({error: err.message}));
+    .catch(err => res.json({success: false, error: err.message}));
 };
 
 module.exports.addArticlePost = (req, res, next) => {
     const product = new Product(req.body);
 
     product.save()
-    .then(doc => res.status(numberConstants.successNum).json({doc}))
-    .catch(err => res.status(numberConstants.internalServerNum).json({error: err.message}));
+    .then(doc => res.status(numberConstants.successNum).json({success: true, doc}))
+    .catch(err => res.json({success: false, error: err.message}));
 };
 
 module.exports.findArticlesGet = (req, res, next) => {
@@ -61,8 +62,8 @@ module.exports.findArticlesGet = (req, res, next) => {
     .sort([[sortBy, order]])
     .limit(limit)
     .exec()
-    .then(doc => res.status(numberConstants.successNum).json({doc}))
-    .catch(err => res.status(numberConstants.internalServerNum).json({error: err.message}));
+    .then(doc => res.status(numberConstants.successNum).json({success: true, doc}))
+    .catch(err => res.json({success: false, error: err.message}));
 };
 
 module.exports.findArticleByIdGet = (req, res, next) => {
@@ -79,6 +80,6 @@ module.exports.findArticleByIdGet = (req, res, next) => {
     .populate('brand')
     .populate('wood')
     .exec()
-    .then(doc => res.status(numberConstants.successNum).json({doc}))
-    .catch(err => res.status(numberConstants.internalServerNum).json({error: err.message}));
+    .then(doc => res.status(numberConstants.successNum).json({success: true, doc}))
+    .catch(err => res.json({success: false, error: err.message}));
 };

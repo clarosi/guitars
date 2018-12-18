@@ -91,22 +91,28 @@ class UpdateProfile extends Component {
         if (formIsValid) {
             this._isMounted = true;
             this.setState({isLoading: true})
-            this.props.dispatch(updateUserProfile(dataToSubmit)).then(() => {
+            this.props.dispatch(updateUserProfile(dataToSubmit)).then((res) => {
                 if (this.props.updateUser) {
                     if (this._isMounted) {
-                        this.setState({formSuccess: true, isLoading: false}, () => {
-                            if (this._isMounted) {
-                                setTimeout(() => {
+                        this.setState({formSuccess: true, isLoading: false}, () => {                          
+                            setTimeout(() => {
+                                if (this._isMounted) {
                                     this.props.dispatch(clearUserProfile());
                                     this.setState({formSuccess: false});
-                                }, delay2sec);
-                            }
+                                }
+                            }, delay2sec);                         
                         });
                     }
                 }
+                else {
+                    this.setState({
+                        isLoading: false,
+                        formHasError: true,
+                        formErrorMsg: res.payload.data.error
+                    });
+                }
             })
             .catch(err => {
-                console.log(err);
                 this.setState({
                     isLoading: false,
                     formHasError: true

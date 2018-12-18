@@ -22,6 +22,8 @@ import ErrorMsg from '../Misc/ErrorMsg';
 import FileUploader from '../../../UI/FormElement/FileUploader';
 
 class AddProduct extends Component {
+    _isMounted = false;
+
     state = {
         isLoading: false,
         formHasError: false,
@@ -221,6 +223,7 @@ class AddProduct extends Component {
     }
 
     componentWillUnMount() {
+        this._isMounted = false;
         this.props.dispatch(clearProduct());
     }
 
@@ -249,29 +252,35 @@ class AddProduct extends Component {
         const formIsValid = verifyFormIsValid(this.state.formData);
 
         if (formIsValid) { 
+            this._isMounted = true;
+
             this.setState({isLoading: true});
 
             this.props.dispatch(addProduct(dataToSubmit))
             .then((res) => {
-                if (res.payload.data) {
-                    this.resetFormFieldHandler();
-                }
-                else {
-                    this.setState({
-                        isLoading: false,
-                        formHasError: true,
-                        formErrorMsg: res.payload,
-                        formSuccessMsg: ''
-                    });  
+                if (this._isMounted) {
+                    if (res.payload.data.success) {
+                        this.resetFormFieldHandler();
+                    }
+                    else {
+                        this.setState({
+                            isLoading: false,
+                            formHasError: true,
+                            formErrorMsg: res.payload.data.error,
+                            formSuccessMsg: ''
+                        });  
+                    }
                 }
             })
             .catch(() => {
-                this.setState({
-                    isLoading: false,
-                    formHasError: true,
-                    formErrorMsg: '',
-                    formSuccessMsg: ''
-                });
+                if (this._isMounted) {
+                    this.setState({
+                        isLoading: false,
+                        formHasError: true,
+                        formErrorMsg: '',
+                        formSuccessMsg: ''
+                    });
+                }
             });
         }
         else {

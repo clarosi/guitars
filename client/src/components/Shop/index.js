@@ -17,6 +17,8 @@ import faBars from '@fortawesome/fontawesome-free-solid/faBars';
 import faTh from '@fortawesome/fontawesome-free-solid/faTh';
 
 class Shop extends Component {
+    _isMounted = false;
+
     state = {
         isLoading: false,
         grid: '',
@@ -36,13 +38,19 @@ class Shop extends Component {
         ]
     };
 
+    componentWillUnMount() {
+        this._isMounted = false;
+    }
+
     componentDidMount() {
+        this._isMounted = true;
+
         this.props.dispatch(getProductBrands())
         .then(() => {
             const newCollapseCheckBoxes = Object.assign([], this.state.collapseCheckBoxes);
             newCollapseCheckBoxes[0].list = this.props.productBrands;
 
-            this.setState({collapseCheckBoxes: newCollapseCheckBoxes});
+            if (this._isMounted) this.setState({collapseCheckBoxes: newCollapseCheckBoxes});
         });
 
         this.props.dispatch(getProductWoods())
@@ -50,7 +58,7 @@ class Shop extends Component {
             const newCollapseCheckBoxes = Object.assign([], this.state.collapseCheckBoxes);
             newCollapseCheckBoxes[1].list = this.props.productWoods;
 
-            this.setState({collapseCheckBoxes: newCollapseCheckBoxes});
+            if (this._isMounted) this.setState({collapseCheckBoxes: newCollapseCheckBoxes});
         });
 
         this.setState({isLoading: true});
@@ -60,10 +68,10 @@ class Shop extends Component {
             filters: this.state.filters
         }))
         .then(() => {
-            this.setState({isLoading: false});
+            if (this._isMounted) this.setState({isLoading: false});
         })
         .catch(() => {
-            this.setState({isLoading: false});
+            if (this._isMounted) this.setState({isLoading: false});
         });
     }
 

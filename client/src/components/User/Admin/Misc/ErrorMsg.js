@@ -28,7 +28,7 @@ const ErrorMsg = (props) => {
                 null
             }
             {props.formHasError ?
-                <div className="error_label">{props.formErrorMsg ? props.formErrorMsg : 'Something went wrong.'}</div>
+                <div className="error_label">{props.formErrorMsg ? props.formErrorMsg : 'Please fill up all the required fields.'}</div>
                 :
                 null
             }

@@ -17,7 +17,7 @@ module.exports = (req, res, next) => {
         const user = jwt.verify(token, process.env.JWT_KEY);
         
         User.findOne({_id: user.userId}, (err, doc) => {
-            if (err)  return res.status(numberConstants.unAuthorizedNum).json({
+            if (err)  return res.json({
                 isAuth: false, 
                 error: ERR_MSG
             });
@@ -27,7 +27,7 @@ module.exports = (req, res, next) => {
         });  
     }
     catch (err) {
-        return res.status(numberConstants.unAuthorizedNum).json({
+        return res.json({
             isAuth: false, 
             error: ERR_MSG
         });

@@ -14,6 +14,8 @@ import ErrorMsg from '../Misc/ErrorMsg';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 class ManageBrands extends Component {
+    _isMounted = false;
+
     state = {
         isFetchingData: false,
         isSendingData: false,
@@ -40,6 +42,10 @@ class ManageBrands extends Component {
         }
     };
 
+    componentWillUnMount() {
+        this._isMounted = false;
+    }
+
     componentDidMount() {
         this.setState({isFetchingData: true});
         this.props.dispatch(getProductBrands())
@@ -62,28 +68,47 @@ class ManageBrands extends Component {
         const formIsValid = verifyFormIsValid(this.state.formData);
 
         if (formIsValid) { 
+            this._isMounted = true;
+
             this.setState({
                 isSendingData: true,
                 isFetchingData: true
             });
+
             this.props.dispatch(addProductBrand(dataToSubmit, this.props.productBrands))
-            .then(() => {
-                this.setState({
-                    isSendingData: false,
-                    isFetchingData: false,
-                    formSuccessMsg: 'Brand successfully added.'
-                });
-                setTimeout(() => {
-                    this.setState({formSuccessMsg: ''});
-                    this.resetFormFieldHandler();
-                }, delay2sec)
+            .then(res => {
+                if (this._isMounted) {
+                    if (res.payload.data.success) {
+                        this.setState({
+                            isSendingData: false,
+                            isFetchingData: false,
+                            formSuccessMsg: 'Brand successfully added.'
+                        });
+                        setTimeout(() => {
+                            if (this._isMounted) {
+                                this.setState({formSuccessMsg: ''});
+                                this.resetFormFieldHandler();
+                            }
+                        }, delay2sec)
+                    }
+                    else {
+                        this.setState({
+                            isSendingData: false,
+                            isFetchingData: false,
+                            formHasError: true,
+                            formErrorMsg: res.payload.data.error
+                        });    
+                    }
+                }
             })
             .catch(err => {
-                this.setState({
-                    isSendingData: false,
-                    isFetchingData: false,
-                    formHasError: true
-                });
+                if (this._isMounted) {
+                    this.setState({
+                        isSendingData: false,
+                        isFetchingData: false,
+                        formHasError: true
+                    });
+                }
             });
         }
         else {

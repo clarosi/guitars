@@ -44,19 +44,21 @@ const reducer = (state = initialState, action) => {
                 toShopSize: action.payload.data.size
             });
         case actionTypes.ADD_PRODUCT_BRAND:
-            const newProductBrands = [
-                ...action.payload.prevData,
-                action.payload.data.doc
-            ];
+            const newProductBrands = [...action.payload.prevData];
+
+            if (action.payload.data.doc) {
+                newProductBrands.push(action.payload.data.doc);
+            }
 
             return Object.assign({}, state, {
                 productBrands: newProductBrands
             }); 
         case actionTypes.ADD_PRODUCT_WOOD:
-            const newProductWoods = [
-                ...action.payload.prevData,
-                action.payload.data.doc
-            ];
+            const newProductWoods = [...action.payload.prevData];
+
+            if (action.payload.data.doc) {
+                newProductWoods.push(action.payload.data.doc);
+            }
 
             return Object.assign({}, state, {
                 productWoods: newProductWoods

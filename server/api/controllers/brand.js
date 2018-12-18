@@ -7,14 +7,20 @@ module.exports.createPost = (req, res, next) => {
     const brand = new Brand(req.body);
 
     brand.save()
-    .then(doc => res.status(numberConstants.successNum).json({doc}))
-    .catch(err => res.status(numberConstants.internalServerNum).json({error: err.message}));
+    .then(doc => res.status(numberConstants.successNum).json({success: true, doc}))
+    .catch(err => res.json({success: false, error: err.message}));
 };
 
 module.exports.retrieveGet = (req, res, next) => {
     Brand.find({}, (err, brands) => {
-        if (err) return res.status(numberConstants.internalServerNum).json({error: err.message});
+        if (err) return res.json({
+            success: false,
+            error: err.message
+        });
 
-        res.status(numberConstants.successNum).json({brands});
+        res.status(numberConstants.successNum).json({
+            success: true,
+            brands
+        });
     });
 };

@@ -4,7 +4,7 @@ export const axiosGetRequest = (url, actionType, data = null, defaultVal = null)
     const request = axios.get(url, data)
     .then(res => res.data)
     .catch(err => defaultVal ? defaultVal : err.response.data.error);
-
+    
     return {
         type: actionType,
         payload: request
@@ -20,7 +20,7 @@ export const axiosPostRequest = (url, actionType, data = null, prevData = [], de
       };
     })
     .catch(err => defaultVal ? defaultVal : err.response.data.error);
-
+    
     return {
         type: actionType,
         payload: request

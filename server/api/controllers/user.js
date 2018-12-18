@@ -19,7 +19,7 @@ cloudinary.config({
 
 module.exports.logoutGet = (req, res, next) => {
     User.findOneAndUpdate({_id: req.user._id}, {token: ''}, (err, doc) => {
-        if (err) return res.status(numberConstants.internalServerNum).json({message: err.message});
+        if (err) return res.json({error: err.message});
 
         res.status(numberConstants.successNum).json({doc});
     });
@@ -41,7 +41,7 @@ module.exports.removeFromCartGet = (req, res, next) => {
             .populate('brand')
             .populate('wood')
             .exec((err, cartDetails) => {
-                if (err) return res.status(numberConstants.internalServerNum).json({
+                if (err) return res.json({
                     cart: [],
                     cartDetails: []
                 });
@@ -81,7 +81,10 @@ module.exports.updateProfile = (req, res, next) => {
         {'$set': req.body},
         {new: true},
         (err, doc) => {
-            if (err) return res.status(numberConstants.internalServerNum).json({success: false, message: err.message});
+            if (err) return res.json({
+                success: false, 
+                message: err.message
+            });
 
             res.status(numberConstants.successNum).json({success: true});
         }
@@ -120,11 +123,11 @@ module.exports.successPayment = (req, res, next) => {
         {$push: {history: history}, $set: {cart: []}},
         {new: true},
         (err, user) => {
-            if (err) return res.status(numberConstants.internalServerNum).json({success: false, error: err.message});
+            if (err) return res.json({success: false, error: err.message});
 
             const payment = new Payment(transData);
             payment.save((err, doc) => {
-                if (err) return res.status(numberConstants.internalServerNum).json({success: false, error: err.message});
+                if (err) return res.json({success: false, error: err.message});
 
                 const products = [];
                 doc.product.forEach(item => {
@@ -139,7 +142,7 @@ module.exports.successPayment = (req, res, next) => {
                         callback
                     );
                 }, (err) => {
-                    if (err) return res.status(numberConstants.internalServerNum).json({success: false, error: err.message});
+                    if (err) return res.json({success: false, error: err.message});
                     
                     res.status(numberConstants.successNum).json({
                         success: true,
@@ -155,8 +158,8 @@ module.exports.successPayment = (req, res, next) => {
 module.exports.signUpPost = (req, res, next) => {
     const user = User(req.body);
     user.save()
-    .then(doc => res.status(numberConstants.successNum).json({doc}))
-    .catch(err => res.status(numberConstants.internalServerNum).json({error: err.message}));
+    .then(doc => res.status(numberConstants.successNum).json({success: true, doc}))
+    .catch(err => res.json({success: false, error: err.message}));
 };
 
 module.exports.addToCartUserPost = (req, res, next) => {
@@ -176,9 +179,9 @@ module.exports.addToCartUserPost = (req, res, next) => {
                 {$inc: {'cart.$.quantity': 1}},
                 {new: true},
                 (err, doc) => {
-                    if (err) return res.status(numberConstants.internalServerNum).json({
+                    if (err) return res.json({
                         doc: [], 
-                        error: err
+                        error: err.message
                     });
 
                     res.status(numberConstants.successNum).json({doc: doc.cart});
@@ -196,27 +199,25 @@ module.exports.addToCartUserPost = (req, res, next) => {
                 }
             }, 
             {new: true}, (err, doc) => {
-                if (err) return res.status(numberConstants.internalServerNum).json({
+                if (err) return res.json({
                     doc: [], 
-                    error: err
+                    error: err.message
                 });
 
                 res.status(numberConstants.successNum).json({doc: doc.cart});
             });
         }
     })
-    .catch(err => {
-    });
 };
 
 module.exports.signInPost = (req, res, next) => {
     User.findOne({email: req.body.email})
     .exec()
     .then(user => {
-        if (!user) return res.status(numberConstants.internalServerNum).json({isAuth: false, error: ERR_MSG});
+        if (!user) return res.json({isAuth: false, error: ERR_MSG});
         
         bcryptjs.compare(req.body.password, user.password, (err, isMatch) => {
-            if (err) return res.status(numberConstants.internalServerNum).json({isAuth: false, error: ERR_MSG});
+            if (err) return res.json({isAuth: false, error: ERR_MSG});
 
             if (isMatch) {
                 // asynchronously sign 
@@ -229,7 +230,7 @@ module.exports.signInPost = (req, res, next) => {
                 {expiresIn: '2h'}, 
                 (err, token) => {                
                     User.findOneAndUpdate({_id: user._id}, {token}, {new: true}, (err, doc) => {
-                        if (err)  return res.status(numberConstants.internalServerNum).json({isAuth: false, error: ERR_MSG});
+                        if (err)  return res.json({isAuth: false, error: ERR_MSG});
                         
                         return res.status(numberConstants.successNum).json({
                             isAuth: true, 
@@ -247,8 +248,8 @@ module.exports.signInPost = (req, res, next) => {
                 });
             }
             else
-                return res.status(numberConstants.internalServerNum).json({isAuth: false, error: ERR_MSG});
+                return res.json({isAuth: false, error: ERR_MSG});
         }); 
     })
-    .catch(err => res.status(numberConstants.internalServerNum).json({isAuth: false, error: err.message}));
+    .catch(err => res.json({isAuth: false, error: err.message}));
 };

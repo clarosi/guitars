@@ -11,6 +11,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Dialog from '@material-ui/core/Dialog';
 
 class Register extends Component {
+    _isMounted = false;
+
     state = {
         isLoading: false,
         formHasError: false,
@@ -102,26 +104,44 @@ class Register extends Component {
         }
     };
 
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
     submitFormHandler = (event) => {
         const dataToSubmit = generateDataToSubmit(this.state.formData);
         const formIsValid = verifyFormIsValid(this.state.formData);
 
         if (formIsValid) {
+            this._isMounted = true;
+
             this.setState({
                 isLoading: true,
                 formErrorMsg: ''
             });
+
             axios.post(signupEndPoint, dataToSubmit)
             .then(res => {
-                this.setState({
-                    isLoading: false,
-                    formHasError: false,
-                    formSuccess: true
-                });
+                if (this._isMounted) {
+                    if (res.data.success) {
+                        this.setState({
+                            isLoading: false,
+                            formHasError: false,
+                            formSuccess: true
+                        });
 
-                setTimeout(() => {
-                    this.props.history.push(registerLoginRoute);
-                }, delay3sec)
+                        setTimeout(() => {
+                            this.props.history.push(registerLoginRoute);
+                        }, delay3sec)
+                    }
+                    else {
+                        this.setState({
+                            isLoading: false,
+                            formHasError: true,
+                            formErrorMsg: res.data.error
+                        });   
+                    }
+                }
             })
             .catch(err => {
                 this.setState({
@@ -129,7 +149,7 @@ class Register extends Component {
                     formHasError: true,
                     formErrorMsg: err.response.data.error
                 });
-            })
+            });
         }
         else {
             this.setState({formHasError: true});
