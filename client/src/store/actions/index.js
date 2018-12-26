@@ -1,4 +1,9 @@
 export { 
+    getSiteInfo,
+    updateSiteInfo 
+} from './site';
+
+export { 
     loginUser, 
     authUser,
     clearUserStore,

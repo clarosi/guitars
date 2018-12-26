@@ -22,7 +22,10 @@ const ErrorMsg = (props) => {
             {props.formSuccessMsg ?
                 <div 
                     className="success_label"
-                    style={{color: '#4caf50'}}
+                    style={{
+                        color: '#4caf50',
+                        marginTop: '10px'
+                    }}
                 >{props.formSuccessMsg}</div>
                 :
                 null

@@ -8,6 +8,7 @@ export const successPaymentEndPoint = '/waves/api/user/success_payment';
 
 export const updateProfileEndPoint = '/waves/api/user/update_profile';
 
+export const getSiteInfo = '/waves/api/site/site_info';
 export const getProductsToShopEndPoint = '/waves/api/product/shop';
 
 export const uploadImageEndPoint = '/waves/api/user/upload_image';

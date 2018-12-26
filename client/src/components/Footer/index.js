@@ -6,12 +6,13 @@ import faPhone from '@fortawesome/fontawesome-free-solid/faPhone';
 import faClock from '@fortawesome/fontawesome-free-solid/faClock';
 import faEnvelope from '@fortawesome/fontawesome-free-solid/faEnvelope';
 
-const Footer = () => {
+const Footer = (props) => {
+    //props.siteInfo.address
     const footerDetails = [
-        {icon: faCompass, name: 'Address', value: 'Pinayagan Norte, Tubigon, Bohol'},
-        {icon: faPhone, name: 'Phone', value: '09061456801'},
-        {icon: faClock, name: 'Working Hours', value: 'Mon-Sat 9am-10pm'},
-        {icon: faEnvelope, name: 'Email', value: 'clarosian@yahoo.com'}
+        {icon: faCompass, name: 'Address', value: props.siteInfo[0].address},
+        {icon: faPhone, name: 'Phone', value: props.siteInfo[0].phone},
+        {icon: faClock, name: 'Working Hours', value: props.siteInfo[0].hours},
+        {icon: faEnvelope, name: 'Email', value: props.siteInfo[0].email}
     ];
 
     return (

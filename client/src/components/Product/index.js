@@ -14,11 +14,14 @@ import { delay2sec } from '../../shared/utils/numberConstants'
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 class ProductDetails extends Component {
+    _isMounted = false;
+
     state = {
         showSnackbar: false
     };
 
     componentWillUnmount() {
+        this._isMounted = false;
         this.props.dispatch(clearProductDetails());
     }
 
@@ -34,12 +37,16 @@ class ProductDetails extends Component {
     }
 
     addToCartHandler = (id) => {
+        this._isMounted = true;
+
         this.props.dispatch(addToCartUser(id))
         .then(res => {
-            this.setState({showSnackbar: true});
-            setTimeout(() => {
-                this.setState({showSnackbar: false});
-            }, delay2sec)
+            if (this._isMounted) {
+                this.setState({showSnackbar: true});
+                setTimeout(() => {
+                    if (this._isMounted) this.setState({showSnackbar: false});
+                }, delay2sec)
+            }
         });
     }
 

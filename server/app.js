@@ -10,6 +10,7 @@ const userRoute = require('./api/routes/user');
 const brandRoute = require('./api/routes/brand');
 const woodRoute = require('./api/routes/wood');
 const productRoute = require('./api/routes/product');
+const siteRoute = require('./api/routes/site');
 
 // lets us define an invironment variables inside .env file
 require('dotenv').config();
@@ -38,6 +39,7 @@ app.use(`${stringConstants.routePrefix}/user`, userRoute);
 app.use(`${stringConstants.routePrefix}/product`, brandRoute);
 app.use(`${stringConstants.routePrefix}/product`, woodRoute);
 app.use(`${stringConstants.routePrefix}/product`, productRoute);
+app.use(`${stringConstants.routePrefix}/site`, siteRoute);
 
 // Unknown routes/end points
 app.use((req, res, next) => {
