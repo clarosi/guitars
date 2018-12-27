@@ -29,7 +29,7 @@ class ProductDetails extends Component {
         const productId = this.props.match.params.productId;
 
         this.props.dispatch(getProductDetails(productId))
-        .then(() => {
+        .then(res => {
             if (this.props.productDetails.length === 0) {
                 this.props.history.push('/');
             }
