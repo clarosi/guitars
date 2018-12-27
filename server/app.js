@@ -21,6 +21,11 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+// For production only
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('client/build'));
+}
+
 // this will fix CORS error
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -30,7 +35,7 @@ app.use((req, res, next) => {
 });
 
 // Connect to DB if using NoSql DB like MongoDB
-mongoose.connect(process.env.DATABASE, {useNewUrlParser: true, useCreateIndex: true});
+mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useCreateIndex: true});
 // remove deprecation warnings in mongoose
 mongoose.Promise = global.Promise;
 
@@ -53,5 +58,14 @@ app.use((error, req, res, next) => {
     res.status(error.status || numberConstants.internalServerNum);
     res.json({error: error.message});
 });
+
+// For production only
+if (process.env.NODE_ENV === 'production') {
+    const path = require('path');
+
+    app.get('/*', (req, res) => {
+        res.sendfile(path.resolve(__dirname, '../client', 'build', 'index.html'));
+    });
+}
 
 module.exports = app;
