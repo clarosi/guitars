@@ -40,6 +40,7 @@ const ProductInfo = (props) => {
                     <CustomButton
                         type="bag_link"
                         text=" Add to cart"
+                        isLoading={props.isLoading}
                         runAction={() => props.addToCart(details._id)}
                     />
                 </div>

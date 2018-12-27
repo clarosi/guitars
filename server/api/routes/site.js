@@ -5,7 +5,7 @@ const admin = require('../middlewares/admin');
 const numberConstants = require('../../shared/utility/numberConstants');
 const siteController = require('../controllers/site');
 
-router.get('/site_info', auth, siteController.getSiteInfo);
+router.get('/site_info', siteController.getSiteInfo);
 
 router.post('/site_info', auth, admin, siteController.updateSiteInfo)
 

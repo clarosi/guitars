@@ -12,6 +12,7 @@ class Card extends Component {
     _isMounted = false;
     
     state = {
+        isAddingToCart: false,
         showSnackbar: false
     };
 
@@ -25,10 +26,17 @@ class Card extends Component {
 
     addToCartHandler = (id) => {
         this._isMounted = true;
+
+        this.setState({isAddingToCart: true});
+
         this.props.dispatch(addToCartUser(id))
-        .then(res => {
+        .then(() => {
             if (this._isMounted) {   
-                this.setState({showSnackbar: true});
+                this.setState({
+                    showSnackbar: true,
+                    isAddingToCart: false
+                });
+
                 setTimeout(() => {
                     if (this._isMounted) this.setState({showSnackbar: false});
                 }, delay2sec);
@@ -81,6 +89,7 @@ class Card extends Component {
                             <div className="button_wrapp">
                                 <CustomButton
                                     type="bag_link"
+                                    isLoading={this.state.isAddingToCart}
                                     runAction={() => this.addToCartHandler(this.props._id)}
                                 />
                             </div>

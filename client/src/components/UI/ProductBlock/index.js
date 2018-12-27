@@ -1,12 +1,13 @@
 import React from 'react';
 
 import { getImage } from '../../../shared/utils/helperFunctions';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const showCartImage = (images) => {
     return getImage(images);
 };
 
-const ProductBlock = ({products, removeCartItem}) => {
+const ProductBlock = ({products, removeCartItem, isLoading}) => {
     const showCartItemsHandler = () => (
         products ?
             products.map(item => (       
@@ -44,7 +45,7 @@ const ProductBlock = ({products, removeCartItem}) => {
                             className="cart_remove_btn"
                             onClick={() => removeCartItem(item._id)}    
                         >
-                            Remove
+                            {!isLoading ? 'Remove' : <CircularProgress size={24} thickness={4} />}
                         </div>
                     </div>
                 </div>

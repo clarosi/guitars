@@ -17,6 +17,7 @@ class ProductDetails extends Component {
     _isMounted = false;
 
     state = {
+        isAddingToCart: false,
         showSnackbar: false
     };
 
@@ -39,10 +40,16 @@ class ProductDetails extends Component {
     addToCartHandler = (id) => {
         this._isMounted = true;
 
+        this.setState({isAddingToCart: true});
+
         this.props.dispatch(addToCartUser(id))
         .then(res => {
             if (this._isMounted) {
-                this.setState({showSnackbar: true});
+                this.setState({
+                    isAddingToCart: false,
+                    showSnackbar: true
+                });
+
                 setTimeout(() => {
                     if (this._isMounted) this.setState({showSnackbar: false});
                 }, delay2sec)
@@ -74,6 +81,7 @@ class ProductDetails extends Component {
                             </div>
                             <div className="right">
                                 <ProductInfo
+                                    isLoading={this.state.isAddingToCart}
                                     addToCart={(id) => this.addToCartHandler(id)}
                                     details={this.props.productDetails}
                                 />

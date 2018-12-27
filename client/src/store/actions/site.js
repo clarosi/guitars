@@ -9,8 +9,7 @@ import { axiosGetRequest, axiosPostRequest } from '../../shared/utils/helperFunc
 // axiosPostRequest(url, actionType, data = null, prevData = [], defaultVal = null)
 
 export const getSiteInfo = () => {
-    const token = localStorage.getItem(tokenName);
-    return axiosGetRequest(`${route.getSiteInfo}?token=${token}`, actionTypes.GET_SITE_INFO);
+    return axiosGetRequest(`${route.getSiteInfo}`, actionTypes.GET_SITE_INFO);
 };
 
 export const updateSiteInfo = (data) => {

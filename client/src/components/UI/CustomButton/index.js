@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import CircularProgress from '@material-ui/core/CircularProgress';
 import faShoppingBag from '@fortawesome/fontawesome-free-solid/faShoppingBag';
 
 const CustomButton = (props) => {
@@ -25,8 +26,11 @@ const CustomButton = (props) => {
                     <div className="bag_link"
                         onClick={() => {props.runAction()}}
                     >
-                        <FontAwesomeIcon icon={faShoppingBag} />
-                        {props.text ? props.text : null}
+                        {!props.isLoading ? <FontAwesomeIcon icon={faShoppingBag} /> : null}
+                        {!props.isLoading ? 
+                            props.text ? props.text : null
+                            : <CircularProgress size={18} thickness={4} />
+                        }
                     </div>
                 )
                 break;

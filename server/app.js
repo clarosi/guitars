@@ -35,7 +35,13 @@ app.use((req, res, next) => {
 });
 
 // Connect to DB if using NoSql DB like MongoDB
-mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useCreateIndex: true});
+const options = {
+  auth: { user: process.env.MONGO_ATLAS_USR, password: process.env.MONGO_ATLAS_PSW },
+  useNewUrlParser: true,
+  useCreateIndex: true
+};
+
+mongoose.connect(stringConstants.mongoDbConStr, options);
 // remove deprecation warnings in mongoose
 mongoose.Promise = global.Promise;
 

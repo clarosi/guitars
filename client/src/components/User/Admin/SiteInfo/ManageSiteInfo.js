@@ -18,6 +18,7 @@ class ManageSiteInfo extends Component {
 
     state = {
         isLoading: false,
+        isUpdating: false,
         formHasError: false,
         formSuccess: false,
         formSuccessMsg: '',
@@ -125,10 +126,13 @@ class ManageSiteInfo extends Component {
 
         if (formIsValid) {
             this._isMounted = true; 
+
+            this.setState({isUpdating: true});
+
             this.props.dispatch(updateSiteInfo(dataToSubmit))
             .then(() => {
                 if (this._isMounted) {
-                    this.setState({formSuccessMsg: 'Update success.'}, () => {
+                    this.setState({formSuccessMsg: 'Update success.', isUpdating: false}, () => {
                         setTimeout(() => {
                             if (this._isMounted) this.setState({formSuccessMsg: ''});
                         }, delay2sec)
@@ -159,7 +163,7 @@ class ManageSiteInfo extends Component {
             formHasError: this.state.formHasError,
             formErrorMsg: this.state.formErrorMsg,
             submitFormHandler: this.submitFormHandler,
-            formSubmitting: this.isLoading,
+            formSubmitting: this.state.isUpdating,
             formType: 'Update Info'
         };
 

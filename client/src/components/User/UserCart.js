@@ -13,9 +13,10 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 class UserCart extends Component {
     state = {
         loading: false,
-        total: 0,
+        isRemoving: false,
         showTotal: false,
-        showSuccess: false
+        showSuccess: false,
+        total: 0
     };
 
     componentDidMount() {
@@ -54,12 +55,18 @@ class UserCart extends Component {
     }
 
     removeCartItemHandler = (id) => {
+        this.setState({isRemoving: true});
+
         this.props.dispatch(removeCartItem(id))
         .then(res => {
             if (this.props.cartItemDetails.length === 0) {
-                this.setState({showTotal: false})
+                this.setState({
+                    isRemoving: false,
+                    showTotal: false
+                });
             }
             else {
+                this.setState({isRemoving: false});
                 this.calculateTotalHandler(this.props.cartItemDetails);
             }
         });
@@ -95,6 +102,7 @@ class UserCart extends Component {
                     {!this.state.loading ?
                         <React.Fragment>
                             <ProductBlock
+                                isLoading={this.state.isRemoving}
                                 products={this.props.cartItemDetails}
                                 removeCartItem={(id) => this.removeCartItemHandler(id)}
                             />
