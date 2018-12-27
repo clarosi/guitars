@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 // For production only
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === stringConstants.production) {
     app.use(express.static('client/build'));
 }
 
@@ -36,10 +36,13 @@ app.use((req, res, next) => {
 
 // Connect to DB if using NoSql DB like MongoDB
 const options = {
-  auth: { user: process.env.MONGO_ATLAS_USR, password: process.env.MONGO_ATLAS_PSW },
   useNewUrlParser: true,
   useCreateIndex: true
 };
+
+if (process.env.NODE_ENV === stringConstants.production) {
+    options.auth =  {user: process.env.MONGO_ATLAS_USR, password: process.env.MONGO_ATLAS_PSW};
+}
 
 mongoose.connect(stringConstants.mongoDbConStr, options);
 // remove deprecation warnings in mongoose
@@ -53,7 +56,7 @@ app.use(`${stringConstants.routePrefix}/product`, productRoute);
 app.use(`${stringConstants.routePrefix}/site`, siteRoute);
 
 // For production only
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === stringConstants.production) {
     const path = require('path');
 
     app.get('/*', (req, res) => {

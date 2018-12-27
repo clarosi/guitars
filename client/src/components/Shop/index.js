@@ -21,6 +21,7 @@ class Shop extends Component {
 
     state = {
         isLoading: false,
+        isLoadMore: false,
         grid: '',
         limit: 6,
         skip: 0,
@@ -127,6 +128,8 @@ class Shop extends Component {
         let skip = this.state.skip + this.state.limit;
         const prevData = this.props.toShopArticles;
 
+        this.setState({isLoadMore: true});
+
         this.props.dispatch(getProductsToShop(
             {
                 skip,
@@ -136,7 +139,10 @@ class Shop extends Component {
             prevData
         ))
         .then(() => {
-            this.setState({skip});
+            this.setState({
+                skip,
+                isLoadMore: false
+            });
         });
     }
 
@@ -188,6 +194,7 @@ class Shop extends Component {
                                             limit={this.state.limit}
                                             size={this.props.toShopSize}
                                             products={this.props.toShopArticles}
+                                            loading={this.state.isLoadMore}
                                             loadMore={() => this.loadMoreHandler()}
                                         />
                                     </div>

@@ -313,7 +313,7 @@ class AddProduct extends Component {
             formHasError: this.state.formHasError,
             formErrorMsg: this.state.formErrorMsg,
             submitFormHandler: this.submitFormHandler,
-            formSubmitting: this.isLoading,
+            formSubmitting: this.state.isLoading,
             formType: 'Add Product'
         };
 

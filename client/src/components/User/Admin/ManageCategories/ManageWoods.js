@@ -146,7 +146,7 @@ class ManageWoods extends Component {
             formHasError: this.state.formHasError,
             formErrorMsg: this.state.formErrorMsg,
             submitFormHandler: this.submitFormHandler,
-            formSubmitting: this.isSendingData,
+            formSubmitting: this.state.isSendingData,
             formType: 'Add Wood'
         };
 

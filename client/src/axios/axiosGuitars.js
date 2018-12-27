@@ -1,8 +1,9 @@
 import axios from 'axios';
 
-//http://localhost:4000
+import { production } from '../shared/utils/stringConstants';
+
 const Instance = axios.create({
-    baseURL: 'https://pacific-savannah-54771.herokuapp.com'
+    baseURL: process.env.NODE_ENV === production ? 'https://pacific-savannah-54771.herokuapp.com' : 'http://localhost:4000'
 });
 
 export default Instance;
