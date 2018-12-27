@@ -52,6 +52,15 @@ app.use(`${stringConstants.routePrefix}/product`, woodRoute);
 app.use(`${stringConstants.routePrefix}/product`, productRoute);
 app.use(`${stringConstants.routePrefix}/site`, siteRoute);
 
+// For production only
+if (process.env.NODE_ENV === 'production') {
+    const path = require('path');
+
+    app.get('/*', (req, res) => {
+        res.sendfile(path.resolve(__dirname, '../client', 'build', 'index.html'));
+    });
+}
+
 // Unknown routes/end points
 app.use((req, res, next) => {
     const error = new Error('Not Found');
@@ -64,14 +73,5 @@ app.use((error, req, res, next) => {
     res.status(error.status || numberConstants.internalServerNum);
     res.json({error: error.message});
 });
-
-// For production only
-if (process.env.NODE_ENV === 'production') {
-    const path = require('path');
-
-    app.get('/*', (req, res) => {
-        res.sendfile(path.resolve(__dirname, '../client', 'build', 'index.html'));
-    });
-}
 
 module.exports = app;
