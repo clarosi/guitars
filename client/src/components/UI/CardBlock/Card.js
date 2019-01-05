@@ -56,7 +56,7 @@ class Card extends Component {
         );
 
         return (
-            <div className={`card_item_wrapper ${this.props.grid}`}>
+            <div className={`col-md card_item_wrapper ${this.props.grid}`}>
                 <div
                     className="image"
                     style={{

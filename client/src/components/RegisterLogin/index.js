@@ -6,10 +6,10 @@ import Login from './Login';
 
 const RegisterLogin = () => {
     return (
-        <div className="page_wrapper">
+        <div className="row">
             <div className="container">
-                <div className="register_login_container">
-                    <div className="left">
+                <div className="row register_login_container">
+                    <div className="col-sm-6">
                         <h2>New Customers</h2>
                         <p>
                             Create a new account.<br />
@@ -22,7 +22,7 @@ const RegisterLogin = () => {
                             addStyles={{margin: '10px 0 0 0'}}
                         />
                     </div>
-                    <div className="right">
+                    <div className="col-sm-6">
                         <h2>Registered Customers</h2>
                         <p>If you have an account please login.</p>
                         <Login />

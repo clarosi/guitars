@@ -69,17 +69,15 @@ class ProductDetails extends Component {
         );
 
         return (
-            <div>
+            <div className="row">
                 <PageTop title="Product Details" />
                 <div className="container">
                     {this.props.productDetails.length > 0 ?
-                        <div className="product_detail_wrapper">
-                            <div className="left">
-                                <div style={{width: '400px'}}>
-                                    <ProductImage details={this.props.productDetails} />
-                                </div>
+                        <div className="row product_detail_wrapper">
+                            <div className="col-md-5">
+                                <ProductImage details={this.props.productDetails} />
                             </div>
-                            <div className="right">
+                            <div className="col-md-7">
                                 <ProductInfo
                                     isLoading={this.state.isAddingToCart}
                                     addToCart={(id) => this.addToCartHandler(id)}

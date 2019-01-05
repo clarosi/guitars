@@ -82,23 +82,27 @@ class Header extends Component {
 
     render() {
         return (
-            <header className="bck_b_light">
-                <div className="container">
-                    <div className="left">
-                        <div className="logo">
-                            <Link to={'/'}>GUITARS</Link>
+            <div className="row">
+                <div className="col-sm-12">
+                    <header className="bck_b_light">
+                        <div className="row container">
+                            <div className="col-sm-6 left">
+                                <div className="logo">
+                                    <Link to={'/'}>GUITARS</Link>
+                                </div>
+                            </div>
+                            <div className="col-xs-6 right">
+                                <div className="top">
+                                    {this.showLinksHandler(this.state.user)}
+                                </div>
+                                <div className="bottom">
+                                    {this.showLinksHandler(this.state.page)}
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div className="right">
-                        <div className="top">
-                            {this.showLinksHandler(this.state.user)}
-                        </div>
-                        <div className="bottom">
-                            {this.showLinksHandler(this.state.page)}
-                        </div>
-                    </div>
+                    </header>
                 </div>
-            </header>
+            </div>
         );
     }
 }

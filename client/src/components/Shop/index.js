@@ -154,11 +154,11 @@ class Shop extends Component {
 
     render() {
         return (
-            <div>
+            <div className="row">
                 <PageTop title="Browse Products" />
                 <div className="container">
-                    <div className="shop_wrapper">
-                        <div className="left">
+                    <div className="row shop_wrapper">
+                        <div className="col-md-2">
                             {this.state.collapseCheckBoxes.map(item => (                        
                                 <CollapseCheckBox
                                     key={item.title}
@@ -175,7 +175,7 @@ class Shop extends Component {
                                 filterHandler={(filters) => this.filterHandler(filters, this.state.pricesCategory)}
                             />
                         </div>
-                        <div className="right">
+                        <div className="col-md-10">
                             {!this.state.isLoading ?
                                 <React.Fragment>
                                     <div className="shop_options">

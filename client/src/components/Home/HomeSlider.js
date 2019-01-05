@@ -36,9 +36,9 @@ const HomeSlider = () => {
 
     const generateSlides = () => (
         slides.map(slide => (
-            <div key={slide._id}>
+            <div className="row" key={slide._id}>
                 <div 
-                    className="featured_image"
+                    className="col-sm-12 featured_image"
                     style={{
                         background: `url(${slide.img})`,
                         height: `${window.innerHeight}px`

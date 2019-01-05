@@ -16,41 +16,45 @@ const Footer = (props) => {
     ];
 
     return (
-        <footer className="bck_b_dark">
-            <div className="container">
-                <div className="logo">
-                    GUITARS
-                </div>
-                <div className="wrapper">
-                    <div className="left">
-                        <h2>Contact Information</h2>
-                        <div className="business_nfo">
-                            {footerDetails.map((details, index) => (              
-                                <div 
-                                    className="tag"
-                                    key={index}
-                                >
-                                    <FontAwesomeIcon 
-                                        icon={details.icon}
-                                        className="icon"
-                                    />
-                                    <div className="nfo">
-                                        <div>{details.name}</div>
-                                        <div>{details.value}</div>
-                                    </div>
+        <div className="row">
+            <div className="col-sm-12">
+                <footer className="bck_b_light">
+                    <div className="row container">
+                        <div className="col-sm-12 logo">
+                            GUITARS
+                        </div>
+                        <div className="row mt-4">
+                            <div className="col-sm-6">
+                                <div className="row business_nfo pl-3">
+                                    <h2 className="mb-4">Contact Information</h2>
+                                    {footerDetails.map((details, index) => (              
+                                        <div 
+                                            className="col-sm-12 tag"
+                                            key={index}
+                                        >
+                                            <FontAwesomeIcon 
+                                                icon={details.icon}
+                                                className="icon"
+                                            />
+                                            <div className="nfo">
+                                                <div>{details.name}</div>
+                                                <div>{details.value}</div>
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
+                            </div>
+                            <div className="col-md-6">
+                                <h2 className="mb-4">Be the first to know</h2>
+                                <div>
+                                    <span>Get all the information on events, sales and offers. You can miss out.</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div className="left">
-                        <h2>Be the first to know</h2>
-                        <div>
-                            <span>Get all the information on events, sales and offers. You can miss out.</span>
-                        </div>
-                    </div>
-                </div>
+                </footer>
             </div>
-        </footer>
+        </div>
     );
 };
 

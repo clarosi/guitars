@@ -169,10 +169,10 @@ class Register extends Component {
 
     render() {
         return (
-            <div className="page_wrapper">
+            <div className="row">
                 <div className="container">
                     <div className="register_login_container">
-                        <div className="left">
+                        <div className="col-sm-12">
                             <form onSubmit={(event) => this.submitFormHandler(event)}>
                                 <h2>Personal Information</h2>
                                 <div className="form_block_two">

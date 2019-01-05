@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { getSiteInfo } from '../../store/actions/';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 class Layout extends Component {
     componentDidMount() {
@@ -14,13 +15,11 @@ class Layout extends Component {
 
     render() {
         return (
-            <div>
+            <React.Fragment>
                 <Header />
-                <div className="page_container">
-                    {this.props.children}
-                </div>
-                {this.props.siteData.siteInfo ? <Footer siteInfo={this.props.siteData.siteInfo} /> :null }
-            </div>
+                {this.props.children}
+                {this.props.siteData.siteInfo ? <Footer siteInfo={this.props.siteData.siteInfo} /> :<LinearProgress />}
+            </React.Fragment>
         );
     }
 }

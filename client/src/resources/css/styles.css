@@ -6,7 +6,7 @@ body {
 }
 
 .container {
-    width:1100px;
+    /*width:1100px;*/
     margin: 0 auto;
 }
 .page_container {
@@ -28,7 +28,7 @@ a {
 }
 
 .bck_b_light {
-    background: #999592;
+    background: #506077;
 }
 
 .bck_b_dark {
@@ -244,8 +244,6 @@ select {
             HEADER
 ==============================*/
 header {
-    position: fixed;
-    z-index: 999;
     width: 100%;
     border-bottom: 1px solid white;
 }
@@ -259,6 +257,11 @@ header .logo {
 
 header a {
     margin-left: 20px;
+}
+
+header a:hover {
+    color: #96bbf2;
+    text-decoration: none;
 }
 
 header .container {
@@ -285,7 +288,6 @@ header .container .right .bottom {
 }
 
 header .container .right .top {
-    color:#c9c9c9;
     border-bottom: 1px solid #ffffff;
 }
 
@@ -315,7 +317,9 @@ header .log_out_link {
             FOOTER
 ==============================*/
 
-
+footer {
+    color: #ffffff;
+}
 
 footer .logo {
     text-align: center;
@@ -323,7 +327,7 @@ footer .logo {
     color: #ffffff;
     font-size: 40px;
     padding: 11px 0px;
-    border-bottom: 1px solid #4d4d4d;
+    border-bottom: 1px solid #ffffff;
 }
 
 footer .wrapper {
@@ -437,7 +441,7 @@ footer .business_nfo .nfo {
 ==============================*/
 
 .card_block {
-    margin: 110px 0px;
+    margin: 50px 0px;
 }
 
 .card_block .title {
@@ -459,16 +463,13 @@ footer .business_nfo .nfo {
 
 .card_item_wrapper {
     flex-grow: 1;
-    width: 25%;
-    padding: 0 20px;
     box-sizing: border-box;
     position: relative;
     overflow: hidden;
 }
 
 .card_item_wrapper .image {
-    width: 100%;
-    height: 280px;
+    height: 300px;
     background-position: center !important;
     background-size: cover !important;
     border: 1px solid #f0f0f0;
@@ -696,7 +697,7 @@ footer .business_nfo .nfo {
     width: 100%;
     height: 446px;
     border: 1px solid #d9d9d9;
-    background-size: contain !important;
+    background-size: cover !important;
     background-position: center center !important;
 }
 

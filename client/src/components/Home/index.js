@@ -15,26 +15,30 @@ class Home extends Component {
 
     render() {
         return (
-            <div>
+            <React.Fragment>
                 <HomeSlider />
-                {this.props.productBySell.length > 0 ?           
-                    <CardBlock 
-                        list={this.props.productBySell}
-                        title="Best Selling Guitar"
-                    />
-                    :
-                    <LinearProgress />
-                }
+                <div className="container">
+                    {this.props.productBySell.length > 0 ?                           
+                        <CardBlock 
+                            list={this.props.productBySell}
+                            title="Best Selling Guitar"
+                        />
+                        :
+                        <LinearProgress />
+                    }
+                </div> 
                 <HomPromotions />
-                {this.props.productByArrival.length > 0 ?           
-                    <CardBlock 
-                        list={this.props.productByArrival}
-                        title="New Arrival"
-                    />
-                    :
-                    <LinearProgress />
-                }
-            </div>
+                <div className="container">
+                    {this.props.productByArrival.length > 0 ?           
+                        <CardBlock 
+                            list={this.props.productByArrival}
+                            title="New Arrival"
+                        />
+                        :
+                        <LinearProgress />
+                    }
+                </div> 
+            </React.Fragment>
         );
     }
 }

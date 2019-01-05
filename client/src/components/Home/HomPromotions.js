@@ -15,13 +15,12 @@ const HomPromotions = () => {
 
     const generatePromotions = () => (
         <div
-            className="home_promotion_img"
+            className="col-sm-12 home_promotion_img"
             style={{background: `url(${promotion.img})`}}
         >
-
-            <div className="tag title">{promotion.lineOne}</div>
-            <div className="tag low_title">{promotion.lineTwo}</div>
             <div>
+                <div className="tag title">{promotion.lineOne}</div>
+                <div className="tag low_title">{promotion.lineTwo}</div>
                 <CustomButton
                     type="link"
                     title={promotion.linkTitle}
@@ -33,7 +32,7 @@ const HomPromotions = () => {
     )
 
     return (
-        <div className="home_promotion">
+        <div className="row home_promotion">
             {generatePromotions()}
         </div>
     );
