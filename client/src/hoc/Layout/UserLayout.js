@@ -30,14 +30,14 @@ const UserLayout = (props) => {
 
     return (
         <div className="container">
-            <div className="user_container">
-                <div className="user_left_nav">
-                    <h2>Dashboard</h2>
-                    <div className="links">
+            <div className="row user_container">
+                <div className="col-sm-4 user_left_nav">
+                    <div className="col-sm mt-4 links">
+                        <h2>Dashboard</h2>
                         {generateLinksHandler(links)}
                     </div>
                     {props.userData.isAdmin ?
-                        <div>
+                        <div className="col-sm mt-5">
                             <h2>Admin</h2>
                             <div className="links">
                                 {generateLinksHandler(adminLinks)}
@@ -46,7 +46,7 @@ const UserLayout = (props) => {
                         : null
                     }
                 </div>
-                <div className="user_right">
+                <div className="col-sm-8 user_right">
                     {props.children}
                 </div>
             </div>

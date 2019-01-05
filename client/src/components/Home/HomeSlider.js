@@ -8,7 +8,7 @@ const HomeSlider = () => {
     const slides = [
         {
             _id: 1,
-            img: '/images/featured/featured_home.jpg', 
+            img: '/images/featured/featured_home_2.jpg', 
             lineOne: 'Finder', 
             lineTwo: 'Custom Shop', 
             linkTitle: 'Shop now', 
@@ -16,7 +16,7 @@ const HomeSlider = () => {
         },
         {
             _id: 2,
-            img: '/images/featured/featured_home_2.jpg', 
+            img: '/images/featured/featured_home.jpg', 
             lineOne: 'B-Stock', 
             lineTwo: 'Awesome discounts', 
             linkTitle: 'View offers', 
