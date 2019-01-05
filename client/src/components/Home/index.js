@@ -27,7 +27,9 @@ class Home extends Component {
                         <LinearProgress />
                     }
                 </div> 
-                <HomPromotions />
+                <div className="container-fluid">
+                    <HomPromotions />
+                </div>
                 <div className="container">
                     {this.props.productByArrival.length > 0 ?           
                         <CardBlock 

@@ -369,7 +369,7 @@ footer .business_nfo .nfo {
 .featured_container .featured_image {
     position:relative;
     background-size: cover !important;
-    background-position: center left !important;
+    background-position: center !important;
 }
 
 .featured_container .featured_action {
